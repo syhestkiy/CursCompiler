@@ -2,6 +2,15 @@
 
 namespace CursCompiler.LexAnalyzer
 {
+    public enum CommAP
+    {
+        TrueCode,
+        CommOpenBracket,
+        CommOpenStar,
+        CommChar,
+        CommCloseStar,
+        CommCloseBracket
+    }
     class CommentParser
     {
 
@@ -9,9 +18,25 @@ namespace CursCompiler.LexAnalyzer
         public static string[] Analyze(string entryFile)
         {
             string[] allLines = entryFile.Split("\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            foreach (var line in allLines)
+            char[] tempIn = allLines.ToString().ToCharArray();
+            string returOut;
+            CommAP state=CommAP.TrueCode;
+            int startPosition=0,finishPosition=0;
+
+            for (int i = 0; i < tempIn.Length; i++)
             {
-                Console.WriteLine(line);
+                if(state!=CommAP.CommChar)
+                {
+                    switch (tempIn[i])
+                    {
+                        case '(':
+                            startPosition = i;
+                            state = CommAP.CommOpenBracket;
+                            break;
+                        case '*':
+
+                    }
+                }
             }
             return allLines;
         }
