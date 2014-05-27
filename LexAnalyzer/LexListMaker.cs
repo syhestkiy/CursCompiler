@@ -27,7 +27,7 @@
         LexConst,
         LexVar,
         LexDivider,
-        LexSetValue,//todo make correct name here
+        LexAssign,//todo make correct name here
 
     }
 
@@ -85,7 +85,7 @@
         Var,
         Const,
         Divider,//;
-        SetValue,//присвоєння // todo make correct name here
+        Assign,//присвоєння // todo make correct name here
         CommOpen1,
         CommOpen2,
         CommClose1,
@@ -93,7 +93,7 @@
     }
 
     //Data structure for LexTable
-    class LexListMaker
+    internal class LexListMaker
     {
         private string _lexName;
         private LexTypeList _lexType;
@@ -156,7 +156,7 @@
                 case LexTypeList.LexCloseBracket:
                     result = "Close bracket";
                     return result;
-                case LexTypeList.LexSetValue:
+                case LexTypeList.LexAssign:
                     result = "Set value";
                     return result;
                 case LexTypeList.LexConst:
@@ -228,7 +228,7 @@
                 case LexTypeList.LexConst:
                     result = "c";
                     return result;
-                case LexTypeList.LexSetValue:
+                case LexTypeList.LexAssign:
                     result = ":=";
                     return result;
                 case LexTypeList.LexOr:
@@ -267,7 +267,14 @@
                 default:
                     result = string.Empty;
                     return result;
-            }
+            } //end of case
+        } //end of GetLexTypeInfo
+
+
+        public static void AddVarToList(LexAutomatStates currentState,int linePosiion, int lineNumber)
+        {
+
         }
-    }
+
+}
 }

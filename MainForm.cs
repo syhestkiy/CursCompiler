@@ -37,7 +37,7 @@ namespace CursCompiler
 
             richTxtEntryFile.Text = allines;
 
-            string[] lines=CommentParser.Analyze(allines);
+            string lines=CommentParser.CommentRemover("(*","*)",allines);
 
             foreach (var line in lines)
             {
