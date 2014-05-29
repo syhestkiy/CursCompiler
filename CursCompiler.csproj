@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LexAnalyzer\CommentParser.cs" />
+    <Compile Include="LexAnalyzer\TextEditor.cs" />
     <Compile Include="LexAnalyzer\Lexems.cs" />
     <Compile Include="LexAnalyzer\LexListMaker.cs" />
     <Compile Include="LexAnalyzer\TreeFunc.cs" />
