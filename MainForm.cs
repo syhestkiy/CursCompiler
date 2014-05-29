@@ -38,7 +38,7 @@ namespace CursCompiler
             richTxtEntryFile.Text = allines;
 
             string lines=TextEditor.CommentRemover("(*","*)",allines);
-
+            lines = TextEditor.SpaceCorrector(lines);
             foreach (var line in lines)
             {
                 richTxtEntryFile.Text += line;

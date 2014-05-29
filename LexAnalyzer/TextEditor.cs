@@ -18,29 +18,29 @@ namespace CursCompiler.LexAnalyzer
         }
 
 
-        public string SpaceCorrector(string textline)
+        public static string SpaceCorrector(string textline)
         {
             int i;
             //розділення деяких операторів (для зручнішого зчитування)
             //Індуський код, але простіший для розуміння. Якщо додавати пробіли тільки для операторів, які його
             //не мають, то прийдеться розбивати кожного разу string на масив char. Складніше і довше для
             //виконання процесором, але зручніше для використання в C#
-            for (i = 0; i < Operators.Length; i++)
+            for (i = 0; i < Lex.Operators.Length; i++)
             {
-                if (textline.Contains(Operators[i].name + Operators[i].name))
+                if (textline.Contains(Lex.Operators[i].Name + Lex.Operators[i].Name))
                 {
-                    if (Operators[i].name == "+" || Operators[i].name == "-" || Operators[i].name == "=" || Operators[i].name == "|")
+                    if (Lex.Operators[i].Name == "+" || Lex.Operators[i].Name == "-" || Lex.Operators[i].Name == "=" || Lex.Operators[i].Name == "|")
                     {
-                        textline = textline.Replace(Operators[i].name + Operators[i].name, (" " + Operators[i].name + Operators[i].name + " "));
+                        textline = textline.Replace(Lex.Operators[i].Name + Lex.Operators[i].Name, (" " + Lex.Operators[i].Name + Lex.Operators[i].Name + " "));
                     }
                     else
                     {
-                        textline = textline.Replace(Operators[i].name, (" " + Operators[i].name + " "));
+                        textline = textline.Replace(Lex.Operators[i].Name, (" " + Lex.Operators[i].Name + " "));
                     }
                 }
                 else
                 {
-                    textline = textline.Replace(Operators[i].name, (" " + Operators[i].name + " "));
+                    textline = textline.Replace(Lex.Operators[i].Name, (" " + Lex.Operators[i].Name + " "));
                 }
             }
             //Видалення повторень пробілів на початку та в кінці рядка
