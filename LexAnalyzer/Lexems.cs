@@ -41,6 +41,7 @@ namespace CursCompiler.LexAnalyzer
         {
             new Op("+", "Знак суми"),
             new Op("-", "Знак різниці"),
+            new Op("--","Декремент"), 
             new Op("&", "Логічне І"),
             new Op("||", "Логічне АБО"),
             new Op("!", "Логічне НЕ"),
