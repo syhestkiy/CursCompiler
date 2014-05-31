@@ -31,15 +31,15 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.listOfTabs = new System.Windows.Forms.TabControl();
             this.tabTxtEditOrOpenExistingFile = new System.Windows.Forms.TabPage();
-            this.tabLexems = new System.Windows.Forms.TabPage();
-            this.btnExit = new System.Windows.Forms.Button();
-            this.richTxtEdit = new System.Windows.Forms.RichTextBox();
-            this.btnSaveAs = new System.Windows.Forms.Button();
-            this.btnOpen = new System.Windows.Forms.Button();
-            this.btnDeleteTextFromTextEdit = new System.Windows.Forms.Button();
             this.btnCompile = new System.Windows.Forms.Button();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.btnDeleteTextFromTextEdit = new System.Windows.Forms.Button();
+            this.btnOpen = new System.Windows.Forms.Button();
+            this.btnSaveAs = new System.Windows.Forms.Button();
+            this.richTxtEdit = new System.Windows.Forms.RichTextBox();
+            this.tabLexems = new System.Windows.Forms.TabPage();
             this.gridLexems = new System.Windows.Forms.DataGridView();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.listOfTabs.SuspendLayout();
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
@@ -78,60 +78,16 @@
             this.tabTxtEditOrOpenExistingFile.Text = "Editor";
             this.tabTxtEditOrOpenExistingFile.UseVisualStyleBackColor = true;
             // 
-            // tabLexems
+            // btnCompile
             // 
-            this.tabLexems.Controls.Add(this.gridLexems);
-            this.tabLexems.Location = new System.Drawing.Point(4, 22);
-            this.tabLexems.Name = "tabLexems";
-            this.tabLexems.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLexems.Size = new System.Drawing.Size(723, 301);
-            this.tabLexems.TabIndex = 1;
-            this.tabLexems.Text = "Lexems";
-            this.tabLexems.UseVisualStyleBackColor = true;
-            // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.Location = new System.Drawing.Point(644, 329);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 0;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // richTxtEdit
-            // 
-            this.richTxtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTxtEdit.Location = new System.Drawing.Point(8, 7);
-            this.richTxtEdit.Name = "richTxtEdit";
-            this.richTxtEdit.Size = new System.Drawing.Size(626, 288);
-            this.richTxtEdit.TabIndex = 0;
-            this.richTxtEdit.Text = "";
-            // 
-            // btnSaveAs
-            // 
-            this.btnSaveAs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveAs.Location = new System.Drawing.Point(640, 7);
-            this.btnSaveAs.Name = "btnSaveAs";
-            this.btnSaveAs.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveAs.TabIndex = 1;
-            this.btnSaveAs.Text = "Save As";
-            this.btnSaveAs.UseVisualStyleBackColor = true;
-            this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
-            // 
-            // btnOpen
-            // 
-            this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpen.Location = new System.Drawing.Point(640, 36);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(75, 23);
-            this.btnOpen.TabIndex = 2;
-            this.btnOpen.Text = "Open";
-            this.btnOpen.UseVisualStyleBackColor = true;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            this.btnCompile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCompile.Location = new System.Drawing.Point(640, 94);
+            this.btnCompile.Name = "btnCompile";
+            this.btnCompile.Size = new System.Drawing.Size(75, 34);
+            this.btnCompile.TabIndex = 4;
+            this.btnCompile.Text = "Compile";
+            this.btnCompile.UseVisualStyleBackColor = true;
+            this.btnCompile.Click += new System.EventHandler(this.btnCompile_Click);
             // 
             // btnDeleteTextFromTextEdit
             // 
@@ -144,15 +100,49 @@
             this.btnDeleteTextFromTextEdit.UseVisualStyleBackColor = true;
             this.btnDeleteTextFromTextEdit.Click += new System.EventHandler(this.btnDeleteTextFromTextEdit_Click);
             // 
-            // btnCompile
+            // btnOpen
             // 
-            this.btnCompile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCompile.Location = new System.Drawing.Point(640, 94);
-            this.btnCompile.Name = "btnCompile";
-            this.btnCompile.Size = new System.Drawing.Size(75, 34);
-            this.btnCompile.TabIndex = 4;
-            this.btnCompile.Text = "Compile";
-            this.btnCompile.UseVisualStyleBackColor = true;
+            this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpen.Location = new System.Drawing.Point(640, 36);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(75, 23);
+            this.btnOpen.TabIndex = 2;
+            this.btnOpen.Text = "Open";
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
+            // btnSaveAs
+            // 
+            this.btnSaveAs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveAs.Location = new System.Drawing.Point(640, 7);
+            this.btnSaveAs.Name = "btnSaveAs";
+            this.btnSaveAs.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveAs.TabIndex = 1;
+            this.btnSaveAs.Text = "Save As";
+            this.btnSaveAs.UseVisualStyleBackColor = true;
+            this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
+            // 
+            // richTxtEdit
+            // 
+            this.richTxtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTxtEdit.Location = new System.Drawing.Point(8, 7);
+            this.richTxtEdit.Name = "richTxtEdit";
+            this.richTxtEdit.Size = new System.Drawing.Size(626, 288);
+            this.richTxtEdit.TabIndex = 0;
+            this.richTxtEdit.Text = "";
+            // 
+            // tabLexems
+            // 
+            this.tabLexems.Controls.Add(this.gridLexems);
+            this.tabLexems.Location = new System.Drawing.Point(4, 22);
+            this.tabLexems.Name = "tabLexems";
+            this.tabLexems.Padding = new System.Windows.Forms.Padding(3);
+            this.tabLexems.Size = new System.Drawing.Size(723, 301);
+            this.tabLexems.TabIndex = 1;
+            this.tabLexems.Text = "Lexems";
+            this.tabLexems.UseVisualStyleBackColor = true;
             // 
             // gridLexems
             // 
@@ -161,6 +151,17 @@
             this.gridLexems.Name = "gridLexems";
             this.gridLexems.Size = new System.Drawing.Size(707, 287);
             this.gridLexems.TabIndex = 0;
+            // 
+            // btnExit
+            // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.Location = new System.Drawing.Point(644, 329);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.TabIndex = 0;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // MainForm
             // 

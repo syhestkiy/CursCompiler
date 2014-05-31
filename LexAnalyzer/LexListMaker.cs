@@ -24,5 +24,13 @@
                 BTOperators.Insert(Lex.Operators[i].Name, i);
             }
         }
+
+        public static void Analyzer()
+        {
+
+
+        }
+
+
     }
 }
