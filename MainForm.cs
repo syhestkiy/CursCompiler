@@ -38,7 +38,7 @@ namespace CursCompiler
             }
             string allines = sb.ToString().ToLower();
 
-            richTxtEdit.Text = allines;
+            richTxtEntryProgram.Text = allines;
 
             //string lines = TextEditor.CommentRemover("(*", "*)", allines);
             //lines = TextEditor.SpaceCorrector(lines);
@@ -58,7 +58,7 @@ namespace CursCompiler
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                richTxtEdit.Text = String.Empty;
+                richTxtEntryProgram.Text = String.Empty;
             }
 
         }
@@ -74,9 +74,9 @@ namespace CursCompiler
             {
                 string line;
                 StreamWriter writer = new StreamWriter(save.OpenFile());
-                for (int i = 0; i < richTxtEdit.Lines.Count(); i++)
+                for (int i = 0; i < richTxtEntryProgram.Lines.Count(); i++)
                 {
-                    line = richTxtEdit.Lines[i];
+                    line = richTxtEntryProgram.Lines[i];
                     writer.WriteLine(line);
                 }
                 writer.Dispose();
@@ -98,13 +98,14 @@ namespace CursCompiler
             //------------Lexical analiz--------------
             string Lex_Prog = String.Empty;
             gridLexems.Rows.Clear();
+            gridLexems.Columns.Clear();
             //додаємо заголовок таблиці
             gridLexems.Columns.Add("wordCount", "№ Слова");
-            gridLexems.Columns.Add("lexem", "Лексема");
+            gridLexems.Columns.Add("lex", "Лексема");
             gridLexems.Columns.Add("description", "Опис");
             gridLexems.Columns.Add("rowNumber", "№ рядка");
             gridLexems.Columns.Add("charNumber", "№ символа");
-            foreach (var temp in richTxtEdit.Lines)
+            foreach (var temp in richTxtEntryProgram.Lines)
             {
                 if (temp != String.Empty)
                 {
@@ -113,7 +114,7 @@ namespace CursCompiler
             }
 
             Lex_Prog = TextEditor.CommentRemover("(*", "*)", Lex_Prog);
-            string[] LexLines = Lex_Prog.Split(new Char[] {'\r'});
+            string[] LexLines = Lex_Prog.Split(new Char[] { '\r' });
             Lex_Prog = String.Empty;
             for (int i = 0; i < LexLines.Length - 1; i++)
             {
@@ -130,22 +131,22 @@ namespace CursCompiler
             bool LexAnalizPerformed = false;
 
             //проводимо перевірку по словах 
-            string[] LexWords = Lex_Prog.Split(new char[] {' '});
+            string[] LexWords = Lex_Prog.Split(new char[] { ' ' });
             foreach (var temp in LexWords)
             {
                 if ((temp == "\""))
                     quotesCount++;
-                if ((temp == "\"") && (tsc == false) && (quotesCount%2 == 1))
+                if ((temp == "\"") && (tsc == false) && (quotesCount % 2 == 1))
                     tsc = true;
                 if (temp != String.Empty && tsc == false)
                 {
                     wordCount++;
                     //записуємо координати лексеми
-                    row = richTxtEdit.GetLineFromCharIndex(richTxtEdit.Text.IndexOf(temp, sting));
-                    symbol = richTxtEdit.Lines[row].IndexOf(temp, sts);
-                    if (richTxtEdit.Lines[row].LastIndexOf(temp) != richTxtEdit.Lines[row].IndexOf(temp))
+                    row = richTxtEntryProgram.GetLineFromCharIndex(richTxtEntryProgram.Text.IndexOf(temp, sting));
+                    symbol = richTxtEntryProgram.Lines[row].IndexOf(temp, sts);
+                    if (richTxtEntryProgram.Lines[row].LastIndexOf(temp) != richTxtEntryProgram.Lines[row].IndexOf(temp))
                     {
-                        sts = richTxtEdit.Lines[row].IndexOf(temp, sts);
+                        sts = richTxtEntryProgram.Lines[row].IndexOf(temp, sts);
                     }
                     else
                     {
@@ -153,7 +154,7 @@ namespace CursCompiler
                     }
                     row++;
                     symbol++;
-                    sting = richTxtEdit.Text.IndexOf(temp, sting);
+                    sting = richTxtEntryProgram.Text.IndexOf(temp, sting);
 
                     //перевіряємо до якого класу належить лексема
                     //KeyWord
@@ -169,7 +170,7 @@ namespace CursCompiler
                         word = LexListMaker.BTOperators.FindNode(temp);
                         if (word != null)
                         {
-                            gridLexems.Rows.Add(wordCount.ToString(), temp, Lex.Operators[(int) word.Value].Type,
+                            gridLexems.Rows.Add(wordCount.ToString(), temp, Lex.Operators[(int)word.Value].Type,
                                 row.ToString(), symbol.ToString());
                         }
                         else
@@ -189,7 +190,7 @@ namespace CursCompiler
                                 gridLexems.Rows.Add(wordCount.ToString(), temp, "8-ва константа", row.ToString(),
                                     symbol.ToString());
                             }
-                                //Variable
+                            //Variable
                             else if ((char.IsLetter(templet[0])) && temp.Length == numbersOfLawSymbols)
                             {
                                 gridLexems.Rows.Add(wordCount.ToString(), temp, "Змінна", row.ToString(),
@@ -207,12 +208,12 @@ namespace CursCompiler
                         }
 
                     }
-                    sting = richTxtEdit.Text.IndexOf(temp, sting);
+                    sting = richTxtEntryProgram.Text.IndexOf(temp, sting);
                 }
                 else if (tsc == true)
                 {
                     tempStringConstant += temp + " ";
-                    if (temp == "\"" && tempStringConstant.Length > 2 && quotesCount%2 == 0)
+                    if (temp == "\"" && tempStringConstant.Length > 2 && quotesCount % 2 == 0)
                     {
                         wordCount++;
                         gridLexems.Rows.Add(wordCount.ToString(), tempStringConstant, "Константа(рядкова)",
@@ -225,6 +226,200 @@ namespace CursCompiler
             }
             LexAnalizPerformed = true;
             //лексичний аналіз завершено;
+
+            //----------Синтаксичний аналіз---------------
+            int syntaxErrorCount = 0;
+            string syntText = "S ";
+            for (int i = 0; i < gridLexems.RowCount-1; i++)
+            {
+                switch (gridLexems["description", i].Value.ToString())
+                {
+                    default:
+                    case "Ключове слово":
+                        syntText += gridLexems["lex", i].Value.ToString() + " ";
+                        break;
+                    case "Змінна":
+                    case "Константа(8-ва)":
+                    case "Костанта(рядкова)":
+                        syntText += "E ";
+                        break;
+                    case "Знак закінчення рядка":
+                        try
+                        {
+                            if (gridLexems["lex", i + 1].Value.ToString() == "}" || i == gridLexems.RowCount - 2)
+                                syntText += "F ";
+                            else
+                                syntText += "F S "; //розбиваємо на символ початку та кінця рядка
+                        }
+                        catch
+                        {
+                            syntText += "F ";
+                        }
+                        break;
+                    case "Знак відкриття блоку":
+                        syntText += "{ S ";
+                        break;
+                    case "Знак закриття блоку":
+                        if (gridLexems["lex", i + 1].Value.ToString() == "}")
+                            syntText += "} F ";
+                        else
+                            syntText += "} F S ";
+                        break;
+                }
+            }
+            syntText = syntText.Replace("prog ", String.Empty);
+            syntText = syntText.Replace("end.", String.Empty);
+            //Згормаємо все те що в лапках (бо це рядкова константа)
+            //Якщо кількість лапок непарна - згортається все після лапки
+            int firstIndex, secondIndex;
+            while (syntText.Contains("\""))
+            {
+                firstIndex = syntText.IndexOf('\"');
+                secondIndex = syntText.IndexOf('\"', firstIndex + 1);
+                if (secondIndex < 0)
+                {
+                    syntText = syntText.Remove(firstIndex, syntText.Length - firstIndex);
+                    break;
+                }
+                syntText = syntText.Remove(firstIndex, secondIndex - firstIndex + 1);
+                syntText = syntText.Insert(firstIndex, "E");
+            }
+            syntText.TrimEnd(new[] {' '});
+            
+            //--згортка умов--
+            while (syntText.Contains("E > E") || syntText.Contains("E < E") || syntText.Contains("E == E") ||
+                   syntText.Contains("( T )"))
+            {
+                syntText = syntText.Replace("E > E", "T");
+                syntText = syntText.Replace("E < E", "T");
+                syntText = syntText.Replace("E == E", "T");
+                syntText = syntText.Replace("( T )", "T");
+            }
+            
+            //--Згортка мат. операцій--
+
+            while (syntText.Contains("E + E")||syntText.Contains("E - E")||syntText.Contains("E = E")||syntText.Contains("( E )"))
+            {
+                syntText = syntText.Replace("E + E", "E");
+                syntText = syntText.Replace("E - E", "E");
+                syntText = syntText.Replace("E = E", "E");
+                syntText = syntText.Replace("( E )", "E");
+            }
+
+            //--Згортка дій Е--
+
+            while (syntText.Contains("int E")||syntText.Contains("S E F")||syntText.Contains("B B"))
+            {
+                syntText = syntText.Replace("int E", "E");
+                syntText = syntText.Replace("S E F", "B");
+                syntText = syntText.Replace("B B", "B");
+            }
+
+            //Згортка дій В блоки
+
+            while (syntText.Contains("do { B } while T")||syntText.Contains("if T { B }")||syntText.Contains("else { B }")||syntText.Contains("S E F")||syntText.Contains("B B"))
+            {
+                syntText = syntText.Replace("do { B } while T", "E");
+                syntText = syntText.Replace("if T { B }", "E");
+                syntText = syntText.Replace("else { B }", "E");
+                syntText = syntText.Replace("S E F", "B");
+                syntText = syntText.Replace("B B", "B");
+            }
+
+            //Список можливих синтаксичних помилок
+            //Перевірка на наявність ключових слів prog i end.
+            if (richTxtEntryProgram.Text.IndexOf("prog") != 0)
+            {
+                errorCounter++;
+                syntaxErrorCount++;
+                //todo ErrAdd(errorCount, 0, 0, "1", "");
+            }
+
+            if (richTxtEntryProgram.Text.IndexOf("end.") != richTxtEntryProgram.Text.Length - 4)
+            {
+                errorCounter++;
+                syntaxErrorCount++;
+                //todo ErrAdd
+            }
+
+            //перевірка чи кількість відкритих дужок відповідає кількості закритих
+            char[] controlBracketText = richTxtEntryProgram.Text.ToCharArray();
+            int openBracketCount = 0, closeBracketCount = 0;
+            int openZBracketCount = 0, closeZBracketCount = 0;
+            for (int i = 0; i < controlBracketText.Length; i++)
+            {
+                switch (controlBracketText[i])
+                {
+                    case '{':
+                        openZBracketCount++;
+                        break;
+                    case '}':
+                        closeZBracketCount++;
+                        break;
+                    case '(':
+                        openBracketCount++;
+                        break;
+                    case ')':
+                        closeBracketCount++;
+                        break;
+                }
+            }
+
+            if (openBracketCount != closeBracketCount)
+            {
+                errorCounter++;
+                syntaxErrorCount++;
+                //todo add this errot to ErrAdd
+            }
+
+            if (openZBracketCount != closeZBracketCount)
+            {
+                errorCounter++;
+                syntaxErrorCount++;
+                //todo add this errot to ErrAdd
+            }
+
+            if (quotesCount%2 == 1)
+            {
+                errorCounter++;
+                syntaxErrorCount++;
+                //todo add this error;
+            }
+
+            //помилки пов'язані з результатом згортання
+            if (syntText != "B" && syntText != "B " && quotesCount%2 == 0)
+            {
+                if (syntText == "S" || syntText == "S ") //синтаксичний аналізатор не сприймає пустого тексту
+                {
+                    errorCounter++;
+                    syntaxErrorCount++;
+                    //todo add this error to ErrAdd
+                }
+                else if (syntText.Contains("E E"))
+                {
+                    errorCounter++;
+                    syntaxErrorCount++;
+                    //todo add this error to ErrAdd
+                }
+                else if (syntText.Contains("+") || syntText.Contains("-") || syntText.Contains("==") ||
+                         syntText.Contains(">") || syntText.Contains("<"))
+                {
+                    errorCounter++;
+                    syntaxErrorCount++;
+                    //todo add this error to ErrAdd
+                }
+                else
+                {
+                    if (openBracketCount == closeBracketCount || openZBracketCount == closeZBracketCount)
+                    {
+                        errorCounter++;
+                        syntaxErrorCount++;
+                        //todo add this error to ErrAdd
+                    }
+                }
+
+            }
+            richTextSyntax.Text = syntText;
         }
     }
 }

@@ -35,15 +35,18 @@
             this.btnDeleteTextFromTextEdit = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnSaveAs = new System.Windows.Forms.Button();
-            this.richTxtEdit = new System.Windows.Forms.RichTextBox();
+            this.richTxtEntryProgram = new System.Windows.Forms.RichTextBox();
             this.tabLexems = new System.Windows.Forms.TabPage();
             this.gridLexems = new System.Windows.Forms.DataGridView();
             this.btnExit = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.tabSyntax = new System.Windows.Forms.TabPage();
+            this.richTextSyntax = new System.Windows.Forms.RichTextBox();
             this.listOfTabs.SuspendLayout();
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).BeginInit();
+            this.tabSyntax.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -57,6 +60,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listOfTabs.Controls.Add(this.tabTxtEditOrOpenExistingFile);
             this.listOfTabs.Controls.Add(this.tabLexems);
+            this.listOfTabs.Controls.Add(this.tabSyntax);
             this.listOfTabs.Location = new System.Drawing.Point(0, 0);
             this.listOfTabs.Name = "listOfTabs";
             this.listOfTabs.SelectedIndex = 0;
@@ -69,7 +73,7 @@
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnDeleteTextFromTextEdit);
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnOpen);
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnSaveAs);
-            this.tabTxtEditOrOpenExistingFile.Controls.Add(this.richTxtEdit);
+            this.tabTxtEditOrOpenExistingFile.Controls.Add(this.richTxtEntryProgram);
             this.tabTxtEditOrOpenExistingFile.Location = new System.Drawing.Point(4, 22);
             this.tabTxtEditOrOpenExistingFile.Name = "tabTxtEditOrOpenExistingFile";
             this.tabTxtEditOrOpenExistingFile.Padding = new System.Windows.Forms.Padding(3);
@@ -122,16 +126,16 @@
             this.btnSaveAs.UseVisualStyleBackColor = true;
             this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
             // 
-            // richTxtEdit
+            // richTxtEntryProgram
             // 
-            this.richTxtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.richTxtEntryProgram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTxtEdit.Location = new System.Drawing.Point(8, 7);
-            this.richTxtEdit.Name = "richTxtEdit";
-            this.richTxtEdit.Size = new System.Drawing.Size(626, 288);
-            this.richTxtEdit.TabIndex = 0;
-            this.richTxtEdit.Text = "";
+            this.richTxtEntryProgram.Location = new System.Drawing.Point(8, 7);
+            this.richTxtEntryProgram.Name = "richTxtEntryProgram";
+            this.richTxtEntryProgram.Size = new System.Drawing.Size(626, 288);
+            this.richTxtEntryProgram.TabIndex = 0;
+            this.richTxtEntryProgram.Text = "";
             // 
             // tabLexems
             // 
@@ -163,6 +167,29 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // tabSyntax
+            // 
+            this.tabSyntax.Controls.Add(this.richTextSyntax);
+            this.tabSyntax.Location = new System.Drawing.Point(4, 22);
+            this.tabSyntax.Name = "tabSyntax";
+            this.tabSyntax.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSyntax.Size = new System.Drawing.Size(723, 301);
+            this.tabSyntax.TabIndex = 2;
+            this.tabSyntax.Text = "Syntax";
+            this.tabSyntax.UseVisualStyleBackColor = true;
+            // 
+            // richTextSyntax
+            // 
+            this.richTextSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextSyntax.Location = new System.Drawing.Point(0, 0);
+            this.richTextSyntax.Name = "richTextSyntax";
+            this.richTextSyntax.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.richTextSyntax.Size = new System.Drawing.Size(723, 301);
+            this.richTextSyntax.TabIndex = 0;
+            this.richTextSyntax.Text = "";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,6 +205,7 @@
             this.tabTxtEditOrOpenExistingFile.ResumeLayout(false);
             this.tabLexems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).EndInit();
+            this.tabSyntax.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -193,9 +221,11 @@
         private System.Windows.Forms.Button btnDeleteTextFromTextEdit;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Button btnSaveAs;
-        private System.Windows.Forms.RichTextBox richTxtEdit;
+        private System.Windows.Forms.RichTextBox richTxtEntryProgram;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.DataGridView gridLexems;
+        private System.Windows.Forms.TabPage tabSyntax;
+        private System.Windows.Forms.RichTextBox richTextSyntax;
     }
 }
 

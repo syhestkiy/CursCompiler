@@ -34,7 +34,9 @@ namespace CursCompiler.LexAnalyzer
             "if", //якщо 
             "else", //інакше
             "while",//поки
-            "do"//виконати
+            "do",//виконати
+            "int",//ціле
+            
         };
 
         public static Op[] Operators =
