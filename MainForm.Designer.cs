@@ -46,7 +46,6 @@
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).BeginInit();
-            this.tabSyntax.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -139,6 +138,7 @@
             // 
             // tabLexems
             // 
+            this.tabLexems.Controls.Add(this.richTextSyntax);
             this.tabLexems.Controls.Add(this.gridLexems);
             this.tabLexems.Location = new System.Drawing.Point(4, 22);
             this.tabLexems.Name = "tabLexems";
@@ -151,9 +151,9 @@
             // gridLexems
             // 
             this.gridLexems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridLexems.Location = new System.Drawing.Point(8, 8);
+            this.gridLexems.Location = new System.Drawing.Point(0, 0);
             this.gridLexems.Name = "gridLexems";
-            this.gridLexems.Size = new System.Drawing.Size(707, 287);
+            this.gridLexems.Size = new System.Drawing.Size(723, 231);
             this.gridLexems.TabIndex = 0;
             // 
             // btnExit
@@ -169,13 +169,12 @@
             // 
             // tabSyntax
             // 
-            this.tabSyntax.Controls.Add(this.richTextSyntax);
             this.tabSyntax.Location = new System.Drawing.Point(4, 22);
             this.tabSyntax.Name = "tabSyntax";
             this.tabSyntax.Padding = new System.Windows.Forms.Padding(3);
             this.tabSyntax.Size = new System.Drawing.Size(723, 301);
             this.tabSyntax.TabIndex = 2;
-            this.tabSyntax.Text = "Syntax";
+            this.tabSyntax.Text = "Triads";
             this.tabSyntax.UseVisualStyleBackColor = true;
             // 
             // richTextSyntax
@@ -183,11 +182,11 @@
             this.richTextSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextSyntax.Location = new System.Drawing.Point(0, 0);
+            this.richTextSyntax.Location = new System.Drawing.Point(0, 231);
             this.richTextSyntax.Name = "richTextSyntax";
             this.richTextSyntax.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextSyntax.Size = new System.Drawing.Size(723, 301);
-            this.richTextSyntax.TabIndex = 0;
+            this.richTextSyntax.Size = new System.Drawing.Size(723, 67);
+            this.richTextSyntax.TabIndex = 1;
             this.richTextSyntax.Text = "";
             // 
             // MainForm
@@ -205,7 +204,6 @@
             this.tabTxtEditOrOpenExistingFile.ResumeLayout(false);
             this.tabLexems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).EndInit();
-            this.tabSyntax.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

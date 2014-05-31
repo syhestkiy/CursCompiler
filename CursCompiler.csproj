@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorLoger\ErrorLogger.cs" />
     <Compile Include="LexAnalyzer\TextEditor.cs" />
     <Compile Include="LexAnalyzer\Lexems.cs" />
     <Compile Include="LexAnalyzer\LexListMaker.cs" />

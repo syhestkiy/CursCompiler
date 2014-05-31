@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CursCompiler.ErrorLoger;
 using CursCompiler.LexAnalyzer;
 
 namespace CursCompiler
@@ -24,9 +24,9 @@ namespace CursCompiler
         private void btnOpen_Click(object sender, EventArgs e)
         {
             openFileDialog.ShowDialog();
-            FileStream fs = File.Open(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.None);
-            StringBuilder sb = new StringBuilder();
-            using (StreamReader sr = new StreamReader(fs))
+            var fs = File.Open(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.None);
+            var sb = new StringBuilder();
+            using (var sr = new StreamReader(fs))
             {
                 String line;
                 // Read and display lines from the file until the end of 
@@ -36,19 +36,10 @@ namespace CursCompiler
                     sb.AppendLine(line);
                 }
             }
-            string allines = sb.ToString().ToLower();
+            var allines = sb.ToString().ToLower();
 
             richTxtEntryProgram.Text = allines;
-
-            //string lines = TextEditor.CommentRemover("(*", "*)", allines);
-            //lines = TextEditor.SpaceCorrector(lines);
-            //foreach (var line in lines)
-            //{
-            //    richTxtEdit.Text += line;
-            //}
             //todo move logic to another file
-
-
         }
 
         //This code deleting text in richTextBox
@@ -67,13 +58,13 @@ namespace CursCompiler
 
         private void btnSaveAs_Click(object sender, EventArgs e)
         {
-            SaveFileDialog save = new SaveFileDialog();
+            var save = new SaveFileDialog();
             save.FileName = "DefaultOutputName.txt";
             save.Filter = "Text File | *.txt";
             if (save.ShowDialog() == DialogResult.OK)
             {
                 string line;
-                StreamWriter writer = new StreamWriter(save.OpenFile());
+                var writer = new StreamWriter(save.OpenFile());
                 for (int i = 0; i < richTxtEntryProgram.Lines.Count(); i++)
                 {
                     line = richTxtEntryProgram.Lines[i];
@@ -82,13 +73,11 @@ namespace CursCompiler
                 writer.Dispose();
                 writer.Close();
             }
-
-
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.KeyPreview = true;
+            KeyPreview = true;
             LexListMaker.InitializeBinaryTrees();
             //todo Paste here prioryty matrix initializator
         }
@@ -96,7 +85,7 @@ namespace CursCompiler
         private void btnCompile_Click(object sender, EventArgs e)
         {
             //------------Lexical analiz--------------
-            string Lex_Prog = String.Empty;
+            string lexProg = String.Empty;
             gridLexems.Rows.Clear();
             gridLexems.Columns.Clear();
             //додаємо заголовок таблиці
@@ -109,16 +98,16 @@ namespace CursCompiler
             {
                 if (temp != String.Empty)
                 {
-                    Lex_Prog += temp + "\r\n";
+                    lexProg += temp + "\r\n";
                 }
             }
 
-            Lex_Prog = TextEditor.CommentRemover("(*", "*)", Lex_Prog);
-            string[] LexLines = Lex_Prog.Split(new Char[] { '\r' });
-            Lex_Prog = String.Empty;
-            for (int i = 0; i < LexLines.Length - 1; i++)
+            lexProg = TextEditor.CommentRemover("(*", "*)", lexProg);
+            string[] lexLines = lexProg.Split(new Char[] { '\r' });
+            lexProg = String.Empty;
+            for (int i = 0; i < lexLines.Length - 1; i++)
             {
-                Lex_Prog += TextEditor.SpaceCorrector(LexLines[i]);
+                lexProg += TextEditor.SpaceCorrector(lexLines[i]);
             }
             int wordCount = 0; //word counter
             int unknownLexemsCount = 0; //counter for unknown lexems
@@ -128,11 +117,10 @@ namespace CursCompiler
             bool tsc = false;
             int quotesCount = 0;
             int errorCounter = 0;
-            bool LexAnalizPerformed = false;
 
             //проводимо перевірку по словах 
-            string[] LexWords = Lex_Prog.Split(new char[] { ' ' });
-            foreach (var temp in LexWords)
+            string[] lexWords = lexProg.Split(new char[] { ' ' });
+            foreach (var temp in lexWords)
             {
                 if ((temp == "\""))
                     quotesCount++;
@@ -175,13 +163,13 @@ namespace CursCompiler
                         }
                         else
                         {
-                            char[] templet = temp.ToCharArray();
+                            var templet = temp.ToCharArray();
                             int numbersOfDigits = 0, numbersOfLawSymbols = 0;
-                            for (int i = 0; i < templet.Length; i++)
+                            foreach (char t in templet)
                             {
-                                if (char.IsDigit(templet[i]))
+                                if (char.IsDigit(t))
                                     numbersOfDigits++;
-                                if (char.IsLetterOrDigit(templet[i]) || templet[i] == '-')
+                                if (char.IsLetterOrDigit(t) || t == '-')
                                     numbersOfLawSymbols++;
                             }
                             //Constant
@@ -202,8 +190,7 @@ namespace CursCompiler
                                     symbol.ToString());
                                 unknownLexemsCount++;
                                 errorCounter++;
-                                //todo Add error struct ErrAdd(errorCount, r, s, temp,"");
-
+                                ErrorLogger.AddError(new Error(errorCounter,"1",temp,row,symbol,"Невідома лексема"));
                             }
                         }
 
@@ -224,12 +211,11 @@ namespace CursCompiler
                 }
 
             }
-            LexAnalizPerformed = true;
             //лексичний аналіз завершено;
 
             //----------Синтаксичний аналіз---------------
             int syntaxErrorCount = 0;
-            string syntText = "S ";
+            string syntText = String.Empty;
             for (int i = 0; i < gridLexems.RowCount-1; i++)
             {
                 switch (gridLexems["description", i].Value.ToString())
@@ -267,8 +253,8 @@ namespace CursCompiler
                         break;
                 }
             }
-            syntText = syntText.Replace("prog ", String.Empty);
-            syntText = syntText.Replace("end.", String.Empty);
+            //syntText = syntText.Replace("prog ", String.Empty);
+            //syntText = syntText.Replace("end.", String.Empty);
             //Згормаємо все те що в лапках (бо це рядкова константа)
             //Якщо кількість лапок непарна - згортається все після лапки
             int firstIndex, secondIndex;
@@ -332,23 +318,23 @@ namespace CursCompiler
             {
                 errorCounter++;
                 syntaxErrorCount++;
-                //todo ErrAdd(errorCount, 0, 0, "1", "");
+                ErrorLogger.AddError(new Error(errorCounter,"2","Відсутнє ключове слово \"prog\""));
             }
 
-            if (richTxtEntryProgram.Text.IndexOf("end.") != richTxtEntryProgram.Text.Length - 4)
+            if (richTxtEntryProgram.Text.IndexOf("end.") != richTxtEntryProgram.Text.Length - 5)//-5 тому що останній символ \n
             {
                 errorCounter++;
                 syntaxErrorCount++;
-                //todo ErrAdd
+                ErrorLogger.AddError(new Error(errorCounter, "2", "Відсутнє ключове слово \"end.\""));
             }
 
             //перевірка чи кількість відкритих дужок відповідає кількості закритих
-            char[] controlBracketText = richTxtEntryProgram.Text.ToCharArray();
+            var controlBracketText = richTxtEntryProgram.Text.ToCharArray();
             int openBracketCount = 0, closeBracketCount = 0;
             int openZBracketCount = 0, closeZBracketCount = 0;
-            for (int i = 0; i < controlBracketText.Length; i++)
+            foreach (char t in controlBracketText)
             {
-                switch (controlBracketText[i])
+                switch (t)
                 {
                     case '{':
                         openZBracketCount++;
@@ -369,21 +355,21 @@ namespace CursCompiler
             {
                 errorCounter++;
                 syntaxErrorCount++;
-                //todo add this errot to ErrAdd
+                ErrorLogger.AddError(new Error(errorCounter,"2","Невідповідність кількості відкритих та закрити дужок "));
             }
 
             if (openZBracketCount != closeZBracketCount)
             {
                 errorCounter++;
                 syntaxErrorCount++;
-                //todo add this errot to ErrAdd
+                ErrorLogger.AddError(new Error(errorCounter, "2", "Невідповідність кількості відкритих та закрити дужок "));
             }
 
             if (quotesCount%2 == 1)
             {
                 errorCounter++;
                 syntaxErrorCount++;
-                //todo add this error;
+                ErrorLogger.AddError(new Error(errorCounter, "2", "Невідповідність кількості відкритих та закрити лапок "));
             }
 
             //помилки пов'язані з результатом згортання
@@ -393,33 +379,35 @@ namespace CursCompiler
                 {
                     errorCounter++;
                     syntaxErrorCount++;
-                    //todo add this error to ErrAdd
+                    ErrorLogger.AddError(new Error(errorCounter, "2", "Синтаксичний аналізатор не сприймає пустого тексту"));
                 }
                 else if (syntText.Contains("E E"))
                 {
                     errorCounter++;
                     syntaxErrorCount++;
-                    //todo add this error to ErrAdd
+                    ErrorLogger.AddError(new Error(errorCounter, "2", "Помилка згортання"));
                 }
-                else if (syntText.Contains("+") || syntText.Contains("-") || syntText.Contains("==") ||
-                         syntText.Contains(">") || syntText.Contains("<"))
-                {
-                    errorCounter++;
-                    syntaxErrorCount++;
-                    //todo add this error to ErrAdd
-                }
-                else
-                {
-                    if (openBracketCount == closeBracketCount || openZBracketCount == closeZBracketCount)
-                    {
-                        errorCounter++;
-                        syntaxErrorCount++;
-                        //todo add this error to ErrAdd
-                    }
-                }
+                //else if (syntText.Contains("+") || syntText.Contains("-") || syntText.Contains("==") ||
+                //         syntText.Contains(">") || syntText.Contains("<"))
+                //{
+                //    errorCounter++;
+                //    syntaxErrorCount++;
+                //    ErrorLogger.AddError(new Error(errorCounter, "2", "Помилка згортання"));
+                //}
+                //else
+                //{
+                //    if (openBracketCount == closeBracketCount || openZBracketCount == closeZBracketCount)
+                //    {
+                //        errorCounter++;
+                //        syntaxErrorCount++;
+                //        ErrorLogger.AddError(new Error(errorCounter, "2", "Помилка згортання"));
+                //    }
+                //}
 
             }
-            richTextSyntax.Text = syntText;
+            richTextSyntax.Text = syntText+"\n";
+            richTextSyntax.Text += ErrorLogger.GetAllErrors();
+            //end of syntax Analiz
         }
     }
 }
