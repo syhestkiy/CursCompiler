@@ -1,4 +1,4 @@
-﻿namespace CursCompiler
+﻿namespace CursCompiler.Forms
 {
     partial class MainForm
     {
@@ -37,20 +37,25 @@
             this.btnSaveAs = new System.Windows.Forms.Button();
             this.richTxtEntryProgram = new System.Windows.Forms.RichTextBox();
             this.tabLexems = new System.Windows.Forms.TabPage();
-            this.richTextSyntax = new System.Windows.Forms.RichTextBox();
             this.gridLexems = new System.Windows.Forms.DataGridView();
             this.tabListOfIdintifers = new System.Windows.Forms.TabPage();
+            this.gridIdintifers = new System.Windows.Forms.DataGridView();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.richTextSyntax = new System.Windows.Forms.RichTextBox();
+            this.tabTriads = new System.Windows.Forms.TabPage();
+            this.gridTriads = new System.Windows.Forms.DataGridView();
+            this.tabGeneretedCode = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.gridIdintifers = new System.Windows.Forms.DataGridView();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.listOfTabs.SuspendLayout();
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).BeginInit();
             this.tabListOfIdintifers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridIdintifers)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            this.tabTriads.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridTriads)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -66,6 +71,8 @@
             this.listOfTabs.Controls.Add(this.tabLexems);
             this.listOfTabs.Controls.Add(this.tabListOfIdintifers);
             this.listOfTabs.Controls.Add(this.tabPage1);
+            this.listOfTabs.Controls.Add(this.tabTriads);
+            this.listOfTabs.Controls.Add(this.tabGeneretedCode);
             this.listOfTabs.Location = new System.Drawing.Point(0, 0);
             this.listOfTabs.Name = "listOfTabs";
             this.listOfTabs.SelectedIndex = 0;
@@ -144,7 +151,6 @@
             // 
             // tabLexems
             // 
-            this.tabLexems.Controls.Add(this.richTextSyntax);
             this.tabLexems.Controls.Add(this.gridLexems);
             this.tabLexems.Location = new System.Drawing.Point(4, 22);
             this.tabLexems.Name = "tabLexems";
@@ -154,29 +160,16 @@
             this.tabLexems.Text = "Lexems";
             this.tabLexems.UseVisualStyleBackColor = true;
             // 
-            // richTextSyntax
-            // 
-            this.richTextSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextSyntax.Location = new System.Drawing.Point(0, 231);
-            this.richTextSyntax.Name = "richTextSyntax";
-            this.richTextSyntax.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextSyntax.Size = new System.Drawing.Size(723, 67);
-            this.richTextSyntax.TabIndex = 1;
-            this.richTextSyntax.Text = "";
-            // 
             // gridLexems
             // 
             this.gridLexems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridLexems.Location = new System.Drawing.Point(0, 0);
             this.gridLexems.Name = "gridLexems";
-            this.gridLexems.Size = new System.Drawing.Size(723, 231);
+            this.gridLexems.Size = new System.Drawing.Size(723, 301);
             this.gridLexems.TabIndex = 0;
             // 
             // tabListOfIdintifers
             // 
-            this.tabListOfIdintifers.Controls.Add(this.richTextBox1);
             this.tabListOfIdintifers.Controls.Add(this.gridIdintifers);
             this.tabListOfIdintifers.Location = new System.Drawing.Point(4, 22);
             this.tabListOfIdintifers.Name = "tabListOfIdintifers";
@@ -185,6 +178,66 @@
             this.tabListOfIdintifers.TabIndex = 2;
             this.tabListOfIdintifers.Text = "Idintifers";
             this.tabListOfIdintifers.UseVisualStyleBackColor = true;
+            // 
+            // gridIdintifers
+            // 
+            this.gridIdintifers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridIdintifers.Location = new System.Drawing.Point(0, 0);
+            this.gridIdintifers.Name = "gridIdintifers";
+            this.gridIdintifers.Size = new System.Drawing.Size(723, 301);
+            this.gridIdintifers.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.richTextSyntax);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(723, 301);
+            this.tabPage1.TabIndex = 3;
+            this.tabPage1.Text = "Syntax";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // richTextSyntax
+            // 
+            this.richTextSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextSyntax.Location = new System.Drawing.Point(0, 0);
+            this.richTextSyntax.Name = "richTextSyntax";
+            this.richTextSyntax.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.richTextSyntax.Size = new System.Drawing.Size(723, 305);
+            this.richTextSyntax.TabIndex = 2;
+            this.richTextSyntax.Text = "";
+            // 
+            // tabTriads
+            // 
+            this.tabTriads.Controls.Add(this.gridTriads);
+            this.tabTriads.Location = new System.Drawing.Point(4, 22);
+            this.tabTriads.Name = "tabTriads";
+            this.tabTriads.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTriads.Size = new System.Drawing.Size(723, 301);
+            this.tabTriads.TabIndex = 4;
+            this.tabTriads.Text = "Triads";
+            this.tabTriads.UseVisualStyleBackColor = true;
+            // 
+            // gridTriads
+            // 
+            this.gridTriads.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridTriads.Location = new System.Drawing.Point(0, 0);
+            this.gridTriads.Name = "gridTriads";
+            this.gridTriads.Size = new System.Drawing.Size(727, 305);
+            this.gridTriads.TabIndex = 0;
+            // 
+            // tabGeneretedCode
+            // 
+            this.tabGeneretedCode.Location = new System.Drawing.Point(4, 22);
+            this.tabGeneretedCode.Name = "tabGeneretedCode";
+            this.tabGeneretedCode.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGeneretedCode.Size = new System.Drawing.Size(723, 301);
+            this.tabGeneretedCode.TabIndex = 5;
+            this.tabGeneretedCode.Text = "Genereted code";
+            this.tabGeneretedCode.UseVisualStyleBackColor = true;
             // 
             // btnExit
             // 
@@ -196,32 +249,6 @@
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(723, 301);
-            this.tabPage1.TabIndex = 3;
-            this.tabPage1.Text = "Syntax";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // gridIdintifers
-            // 
-            this.gridIdintifers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridIdintifers.Location = new System.Drawing.Point(0, 0);
-            this.gridIdintifers.Name = "gridIdintifers";
-            this.gridIdintifers.Size = new System.Drawing.Size(723, 221);
-            this.gridIdintifers.TabIndex = 0;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(0, 221);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(723, 84);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
             // 
             // MainForm
             // 
@@ -240,6 +267,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).EndInit();
             this.tabListOfIdintifers.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridIdintifers)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            this.tabTriads.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridTriads)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -259,10 +289,12 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.DataGridView gridLexems;
         private System.Windows.Forms.TabPage tabListOfIdintifers;
-        private System.Windows.Forms.RichTextBox richTextSyntax;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.DataGridView gridIdintifers;
+        private System.Windows.Forms.RichTextBox richTextSyntax;
+        private System.Windows.Forms.TabPage tabTriads;
+        private System.Windows.Forms.DataGridView gridTriads;
+        private System.Windows.Forms.TabPage tabGeneretedCode;
     }
 }
 

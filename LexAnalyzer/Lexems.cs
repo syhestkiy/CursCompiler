@@ -36,6 +36,7 @@ namespace CursCompiler.LexAnalyzer
             "while",//поки
             "do",//виконати
             "int",//ціле
+            "const"//константа
             
         };
 

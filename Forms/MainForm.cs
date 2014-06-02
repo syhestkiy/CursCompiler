@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,13 +6,35 @@ using System.Windows.Forms;
 using CursCompiler.ErrorLoger;
 using CursCompiler.LexAnalyzer;
 
-namespace CursCompiler
+namespace CursCompiler.Forms
 {
     public partial class MainForm : Form
     {
         public MainForm()
         {
             InitializeComponent();
+            //заповнення шапки таблиці лексем
+            gridLexems.Columns.Add("wordCount", "№ Слова");
+            gridLexems.Columns.Add("lex", "Лексема");
+            gridLexems.Columns.Add("description", "Опис");
+            gridLexems.Columns.Add("rowNumber", "№ рядка");
+            gridLexems.Columns.Add("charNumber", "№ символа");
+            gridLexems.Columns[0].Width = 80;
+            gridLexems.Columns[1].Width = 140;
+            gridLexems.Columns[2].Width = 270;
+            gridLexems.Columns[3].Width = 85;
+            gridLexems.Columns[4].Width = 88;
+            //заповнюємо шапку таблиці ідентифікаторів
+            gridIdintifers.Columns.Add("identNumber", "№ ідентифікатора");
+            gridIdintifers.Columns.Add("idintifer", "Ідентифікатор");
+            gridIdintifers.Columns.Add("identType", "Тип");
+            gridIdintifers.Columns.Add("row", "Рядок");
+            gridIdintifers.Columns.Add("symbol", "Символ");
+            gridIdintifers.Columns[0].Width = 140;
+            gridIdintifers.Columns[1].Width = 270;
+            gridIdintifers.Columns[2].Width = 90;
+            gridIdintifers.Columns[3].Width = 85;
+            gridIdintifers.Columns[4].Width = 88;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -88,14 +109,9 @@ namespace CursCompiler
             //------------Lexical analiz--------------
             string lexProg = String.Empty;
             gridLexems.Rows.Clear();
-            gridLexems.Columns.Clear();
-            gridIdintifers.Columns.Clear();
+            gridIdintifers.Rows.Clear();
             //додаємо заголовок таблиці
-            gridLexems.Columns.Add("wordCount", "№ Слова");
-            gridLexems.Columns.Add("lex", "Лексема");
-            gridLexems.Columns.Add("description", "Опис");
-            gridLexems.Columns.Add("rowNumber", "№ рядка");
-            gridLexems.Columns.Add("charNumber", "№ символа");
+            
             foreach (var temp in richTxtEntryProgram.Lines)
             {
                 if (temp != String.Empty)
@@ -389,40 +405,15 @@ namespace CursCompiler
                     syntaxErrorCount++;
                     ErrorLogger.AddError(new Error(errorCounter, "2", "Помилка згортання"));
                 }
-                //else if (syntText.Contains("+") || syntText.Contains("-") || syntText.Contains("==") ||
-                //         syntText.Contains(">") || syntText.Contains("<"))
-                //{
-                //    errorCounter++;
-                //    syntaxErrorCount++;
-                //    ErrorLogger.AddError(new Error(errorCounter, "2", "Помилка згортання"));
-                //}
-                //else
-                //{
-                //    if (openBracketCount == closeBracketCount || openZBracketCount == closeZBracketCount)
-                //    {
-                //        errorCounter++;
-                //        syntaxErrorCount++;
-                //        ErrorLogger.AddError(new Error(errorCounter, "2", "Помилка згортання"));
-                //    }
-                //}
 
             }
             richTextSyntax.Text = syntText+"\n";
-            richTextSyntax.Text += ErrorLogger.GetAllErrors();
             //end of syntax Analiz
 
-            //Symantic analiz
-            
+            //Semantic analiz
             //список оголошених ідентифікаторів
-
-            //заповнюємо шапку таблиці ідентифікаторів
-            gridIdintifers.Columns.Add("identNumber", "№ ідентифікатора");
-            gridIdintifers.Columns.Add("idintifer", "Ідентифікатор");
-            gridIdintifers.Columns.Add("identType", "Тип");
-            gridIdintifers.Columns.Add("row", "Рядок");
-            gridIdintifers.Columns.Add("symbol", "Символ");
             int declaredIdentCounter = 0;
-            for (int i = 0; i < gridLexems.RowCount; i++)
+            for (int i = 0; i < gridLexems.RowCount-1; i++)
             {
                 if (gridLexems["description", i].Value.ToString() == "Змінна")
                 {
@@ -433,7 +424,7 @@ namespace CursCompiler
                             declaredIdentCounter++;
                             gridIdintifers.Rows.Add(declaredIdentCounter.ToString(),
                                 gridLexems["lex", i].Value.ToString(), "int",
-                                gridLexems["rowNumber", i].Value + ":" + gridLexems["charNumber", i].Value);
+                                gridLexems["rowNumber", i].Value , gridLexems["charNumber", i].Value);
                         }
                     }
                     catch
@@ -444,26 +435,31 @@ namespace CursCompiler
             }
 
             bool idFinded = false;
-            for (int i = 0; i < gridLexems.RowCount; i++)
+            for (int i = 0; i < gridLexems.RowCount-1; i++)
             {
                 if (gridLexems["description", i].Value.ToString() == "Змінна")
                 {
                     for (int j = 0; j < declaredIdentCounter; j++)
                     {
-                        if (gridLexems["lex", i].Value.ToString() == gridIdintifers[1, j].Value.ToString())
+                        if (gridLexems["lex", i].Value.ToString() == gridIdintifers["idintifer", j].Value.ToString())
                         {
-                            idFinded = true;//ідентифікатора був оголошений
+                            idFinded = true;//ідентифікатор був оголошений
                         }
                     }
-                    if (idFinded = false)
+                    if (idFinded == false)
                     {
                         errorCounter++;
                         ErrorLogger.AddError(new Error(errorCounter, "3", gridLexems["lex", i].Value.ToString(),
                             Convert.ToInt32(gridLexems["rowNumber", i].Value.ToString()),
-                            Convert.ToInt32(gridLexems["charNumber", i]), "Невідома змінна"));
+                            Convert.ToInt32(gridLexems["charNumber", i].Value.ToString()), "Невідома змінна"));
                     }
                     idFinded = false;//for next iteration
                 }
+            }
+            if (errorCounter > 0)
+            {
+                Form errorForm=new ErrorReportForm();
+                errorForm.Show();
             }
         }
     }

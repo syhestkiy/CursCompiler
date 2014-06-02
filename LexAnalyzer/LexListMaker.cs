@@ -8,8 +8,6 @@
         public static BinaryTree BTOperators=new BinaryTree();
 
         public int ErrorCount=0;
-        public bool LexAnalizerPerformed = false;
-        public bool AnalizPerformed = false;
 
         //Формуємо бінарні дерева при завантаженні форми
         public static void InitializeBinaryTrees()
