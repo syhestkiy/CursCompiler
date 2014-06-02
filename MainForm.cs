@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -88,6 +89,7 @@ namespace CursCompiler
             string lexProg = String.Empty;
             gridLexems.Rows.Clear();
             gridLexems.Columns.Clear();
+            gridIdintifers.Columns.Clear();
             //додаємо заголовок таблиці
             gridLexems.Columns.Add("wordCount", "№ Слова");
             gridLexems.Columns.Add("lex", "Лексема");
@@ -408,6 +410,61 @@ namespace CursCompiler
             richTextSyntax.Text = syntText+"\n";
             richTextSyntax.Text += ErrorLogger.GetAllErrors();
             //end of syntax Analiz
+
+            //Symantic analiz
+            
+            //список оголошених ідентифікаторів
+
+            //заповнюємо шапку таблиці ідентифікаторів
+            gridIdintifers.Columns.Add("identNumber", "№ ідентифікатора");
+            gridIdintifers.Columns.Add("idintifer", "Ідентифікатор");
+            gridIdintifers.Columns.Add("identType", "Тип");
+            gridIdintifers.Columns.Add("row", "Рядок");
+            gridIdintifers.Columns.Add("symbol", "Символ");
+            int declaredIdentCounter = 0;
+            for (int i = 0; i < gridLexems.RowCount; i++)
+            {
+                if (gridLexems["description", i].Value.ToString() == "Змінна")
+                {
+                    try
+                    {
+                        if (gridLexems["lex", i - 1].Value.ToString() == "int") //можливе розширення типів даних
+                        {
+                            declaredIdentCounter++;
+                            gridIdintifers.Rows.Add(declaredIdentCounter.ToString(),
+                                gridLexems["lex", i].Value.ToString(), "int",
+                                gridLexems["rowNumber", i].Value + ":" + gridLexems["charNumber", i].Value);
+                        }
+                    }
+                    catch
+                    {   }
+                }
+
+
+            }
+
+            bool idFinded = false;
+            for (int i = 0; i < gridLexems.RowCount; i++)
+            {
+                if (gridLexems["description", i].Value.ToString() == "Змінна")
+                {
+                    for (int j = 0; j < declaredIdentCounter; j++)
+                    {
+                        if (gridLexems["lex", i].Value.ToString() == gridIdintifers[1, j].Value.ToString())
+                        {
+                            idFinded = true;//ідентифікатора був оголошений
+                        }
+                    }
+                    if (idFinded = false)
+                    {
+                        errorCounter++;
+                        ErrorLogger.AddError(new Error(errorCounter, "3", gridLexems["lex", i].Value.ToString(),
+                            Convert.ToInt32(gridLexems["rowNumber", i].Value.ToString()),
+                            Convert.ToInt32(gridLexems["charNumber", i]), "Невідома змінна"));
+                    }
+                    idFinded = false;//for next iteration
+                }
+            }
         }
     }
 }

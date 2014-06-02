@@ -37,15 +37,20 @@
             this.btnSaveAs = new System.Windows.Forms.Button();
             this.richTxtEntryProgram = new System.Windows.Forms.RichTextBox();
             this.tabLexems = new System.Windows.Forms.TabPage();
+            this.richTextSyntax = new System.Windows.Forms.RichTextBox();
             this.gridLexems = new System.Windows.Forms.DataGridView();
+            this.tabListOfIdintifers = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.tabSyntax = new System.Windows.Forms.TabPage();
-            this.richTextSyntax = new System.Windows.Forms.RichTextBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.gridIdintifers = new System.Windows.Forms.DataGridView();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.listOfTabs.SuspendLayout();
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).BeginInit();
+            this.tabListOfIdintifers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridIdintifers)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -59,7 +64,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listOfTabs.Controls.Add(this.tabTxtEditOrOpenExistingFile);
             this.listOfTabs.Controls.Add(this.tabLexems);
-            this.listOfTabs.Controls.Add(this.tabSyntax);
+            this.listOfTabs.Controls.Add(this.tabListOfIdintifers);
+            this.listOfTabs.Controls.Add(this.tabPage1);
             this.listOfTabs.Location = new System.Drawing.Point(0, 0);
             this.listOfTabs.Name = "listOfTabs";
             this.listOfTabs.SelectedIndex = 0;
@@ -148,35 +154,6 @@
             this.tabLexems.Text = "Lexems";
             this.tabLexems.UseVisualStyleBackColor = true;
             // 
-            // gridLexems
-            // 
-            this.gridLexems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridLexems.Location = new System.Drawing.Point(0, 0);
-            this.gridLexems.Name = "gridLexems";
-            this.gridLexems.Size = new System.Drawing.Size(723, 231);
-            this.gridLexems.TabIndex = 0;
-            // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.Location = new System.Drawing.Point(644, 329);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 0;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // tabSyntax
-            // 
-            this.tabSyntax.Location = new System.Drawing.Point(4, 22);
-            this.tabSyntax.Name = "tabSyntax";
-            this.tabSyntax.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSyntax.Size = new System.Drawing.Size(723, 301);
-            this.tabSyntax.TabIndex = 2;
-            this.tabSyntax.Text = "Triads";
-            this.tabSyntax.UseVisualStyleBackColor = true;
-            // 
             // richTextSyntax
             // 
             this.richTextSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -189,13 +166,70 @@
             this.richTextSyntax.TabIndex = 1;
             this.richTextSyntax.Text = "";
             // 
+            // gridLexems
+            // 
+            this.gridLexems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridLexems.Location = new System.Drawing.Point(0, 0);
+            this.gridLexems.Name = "gridLexems";
+            this.gridLexems.Size = new System.Drawing.Size(723, 231);
+            this.gridLexems.TabIndex = 0;
+            // 
+            // tabListOfIdintifers
+            // 
+            this.tabListOfIdintifers.Controls.Add(this.richTextBox1);
+            this.tabListOfIdintifers.Controls.Add(this.gridIdintifers);
+            this.tabListOfIdintifers.Location = new System.Drawing.Point(4, 22);
+            this.tabListOfIdintifers.Name = "tabListOfIdintifers";
+            this.tabListOfIdintifers.Padding = new System.Windows.Forms.Padding(3);
+            this.tabListOfIdintifers.Size = new System.Drawing.Size(723, 301);
+            this.tabListOfIdintifers.TabIndex = 2;
+            this.tabListOfIdintifers.Text = "Idintifers";
+            this.tabListOfIdintifers.UseVisualStyleBackColor = true;
+            // 
+            // btnExit
+            // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.Location = new System.Drawing.Point(644, 329);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.TabIndex = 0;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(723, 301);
+            this.tabPage1.TabIndex = 3;
+            this.tabPage1.Text = "Syntax";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // gridIdintifers
+            // 
+            this.gridIdintifers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridIdintifers.Location = new System.Drawing.Point(0, 0);
+            this.gridIdintifers.Name = "gridIdintifers";
+            this.gridIdintifers.Size = new System.Drawing.Size(723, 221);
+            this.gridIdintifers.TabIndex = 0;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(0, 221);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(723, 84);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(731, 357);
-            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.listOfTabs);
+            this.Controls.Add(this.btnExit);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Курсова робота з СПЗ";
@@ -204,6 +238,8 @@
             this.tabTxtEditOrOpenExistingFile.ResumeLayout(false);
             this.tabLexems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).EndInit();
+            this.tabListOfIdintifers.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridIdintifers)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -222,8 +258,11 @@
         private System.Windows.Forms.RichTextBox richTxtEntryProgram;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.DataGridView gridLexems;
-        private System.Windows.Forms.TabPage tabSyntax;
+        private System.Windows.Forms.TabPage tabListOfIdintifers;
         private System.Windows.Forms.RichTextBox richTextSyntax;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.DataGridView gridIdintifers;
     }
 }
 
