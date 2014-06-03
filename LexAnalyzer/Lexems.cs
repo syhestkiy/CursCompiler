@@ -1,7 +1,4 @@
-﻿using System;
-using System.Xml;
-
-namespace CursCompiler.LexAnalyzer
+﻿namespace CursCompiler.LexAnalyzer
 {
     public struct AllWords
     {
@@ -50,6 +47,7 @@ namespace CursCompiler.LexAnalyzer
             new Op("!", "Логічне НЕ"),
             new Op("=", "Знак присвоєння"),
             new Op("==", "Перевірка на рівність"),
+            new Op("!=","Перевірка на нерівність"), 
             new Op(">", "Знак порівняння"),
             new Op("<", "Знак порівняння"),
             new Op("(", "Відкриваюча дужка"),

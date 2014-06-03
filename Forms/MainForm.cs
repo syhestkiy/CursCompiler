@@ -92,7 +92,7 @@ namespace CursCompiler.Forms
                     line = richTxtEntryProgram.Lines[i];
                     writer.WriteLine(line);
                 }
-                writer.Dispose();
+                
                 writer.Close();
             }
         }
@@ -110,6 +110,7 @@ namespace CursCompiler.Forms
             string lexProg = String.Empty;
             gridLexems.Rows.Clear();
             gridIdintifers.Rows.Clear();
+            ErrorLogger.Clear();
             //додаємо заголовок таблиці
             
             foreach (var temp in richTxtEntryProgram.Lines)
@@ -291,44 +292,44 @@ namespace CursCompiler.Forms
             syntText.TrimEnd(new[] {' '});
             
             //--згортка умов--
-            while (syntText.Contains("E > E") || syntText.Contains("E < E") || syntText.Contains("E == E") ||
-                   syntText.Contains("( T )"))
-            {
-                syntText = syntText.Replace("E > E", "T");
-                syntText = syntText.Replace("E < E", "T");
-                syntText = syntText.Replace("E == E", "T");
-                syntText = syntText.Replace("( T )", "T");
-            }
+            //while (syntText.Contains("E > E") || syntText.Contains("E < E") || syntText.Contains("E == E") ||
+            //       syntText.Contains("( T )"))
+            //{
+            //    syntText = syntText.Replace("E > E", "T");
+            //    syntText = syntText.Replace("E < E", "T");
+            //    syntText = syntText.Replace("E == E", "T");
+            //    syntText = syntText.Replace("( T )", "T");
+            //}
             
-            //--Згортка мат. операцій--
+            ////--Згортка мат. операцій--
 
-            while (syntText.Contains("E + E")||syntText.Contains("E - E")||syntText.Contains("E = E")||syntText.Contains("( E )"))
-            {
-                syntText = syntText.Replace("E + E", "E");
-                syntText = syntText.Replace("E - E", "E");
-                syntText = syntText.Replace("E = E", "E");
-                syntText = syntText.Replace("( E )", "E");
-            }
+            //while (syntText.Contains("E + E")||syntText.Contains("E - E")||syntText.Contains("E = E")||syntText.Contains("( E )"))
+            //{
+            //    syntText = syntText.Replace("E + E", "E");
+            //    syntText = syntText.Replace("E - E", "E");
+            //    syntText = syntText.Replace("E = E", "E");
+            //    syntText = syntText.Replace("( E )", "E");
+            //}
 
-            //--Згортка дій Е--
+            ////--Згортка дій Е--
 
-            while (syntText.Contains("int E")||syntText.Contains("S E F")||syntText.Contains("B B"))
-            {
-                syntText = syntText.Replace("int E", "E");
-                syntText = syntText.Replace("S E F", "B");
-                syntText = syntText.Replace("B B", "B");
-            }
+            //while (syntText.Contains("int E")||syntText.Contains("S E F")||syntText.Contains("B B"))
+            //{
+            //    syntText = syntText.Replace("int E", "E");
+            //    syntText = syntText.Replace("S E F", "B");
+            //    syntText = syntText.Replace("B B", "B");
+            //}
 
-            //Згортка дій В блоки
+            ////Згортка дій В блоки
 
-            while (syntText.Contains("do { B } while T")||syntText.Contains("if T { B }")||syntText.Contains("else { B }")||syntText.Contains("S E F")||syntText.Contains("B B"))
-            {
-                syntText = syntText.Replace("do { B } while T", "E");
-                syntText = syntText.Replace("if T { B }", "E");
-                syntText = syntText.Replace("else { B }", "E");
-                syntText = syntText.Replace("S E F", "B");
-                syntText = syntText.Replace("B B", "B");
-            }
+            //while (syntText.Contains("do { B } while T")||syntText.Contains("if T { B }")||syntText.Contains("else { B }")||syntText.Contains("S E F")||syntText.Contains("B B"))
+            //{
+            //    syntText = syntText.Replace("do { B } while T", "E");
+            //    syntText = syntText.Replace("if T { B }", "E");
+            //    syntText = syntText.Replace("else { B }", "E");
+            //    syntText = syntText.Replace("S E F", "B");
+            //    syntText = syntText.Replace("B B", "B");
+            //}
 
             //Список можливих синтаксичних помилок
             //Перевірка на наявність ключових слів prog i end.

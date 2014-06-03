@@ -92,5 +92,10 @@ namespace CursCompiler.ErrorLoger
             return errors;
         }
 
+        public static void Clear()
+        {
+            Error.ListOfErrors.Clear();
+        }
+
     }
 }

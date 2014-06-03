@@ -63,6 +63,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxRules\GrammarRules.cs" />
+    <Compile Include="TriadsMaker\TriadsMaker.cs" />
     <EmbeddedResource Include="Forms\ErrorReportForm.resx">
       <DependentUpon>ErrorReportForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -93,8 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Optimizer\" />
-    <Folder Include="SymantycAnalyzer\" />
-    <Folder Include="SyntaxAnalyzer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
