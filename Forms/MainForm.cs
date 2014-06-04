@@ -111,6 +111,7 @@ namespace CursCompiler.Forms
             gridLexems.Rows.Clear();
             gridIdintifers.Rows.Clear();
             ErrorLogger.Clear();
+            richTextSyntax.Text = String.Empty;
             //додаємо заголовок таблиці
             
             foreach (var temp in richTxtEntryProgram.Lines)
@@ -244,92 +245,169 @@ namespace CursCompiler.Forms
                         syntText += gridLexems["lex", i].Value.ToString() + " ";
                         break;
                     case "Змінна":
-                    case "Константа(8-ва)":
-                    case "Костанта(рядкова)":
-                        syntText += "E ";
+                        syntText += "a ";
                         break;
+                    case "8-ва константа":
+                        syntText += "c ";
+                        break;
+                        
+                    
                     case "Знак закінчення рядка":
                         try
                         {
-                            if (gridLexems["lex", i + 1].Value.ToString() == "}" || i == gridLexems.RowCount - 2)
-                                syntText += "F ";
+                            if (gridLexems["lex", i + 1].Value.ToString() == "} " || i == gridLexems.RowCount - 2)
+                                syntText += " F ";
                             else
-                                syntText += "F S "; //розбиваємо на символ початку та кінця рядка
+                                syntText += " F S "; //розбиваємо на символ початку та кінця рядка
                         }
                         catch
                         {
-                            syntText += "F ";
+                            syntText += " F ";
                         }
                         break;
                     case "Знак відкриття блоку":
-                        syntText += "{ S ";
+                        syntText += "{ ";
                         break;
                     case "Знак закриття блоку":
-                        if (gridLexems["lex", i + 1].Value.ToString() == "}")
-                            syntText += "} F ";
+                        if (gridLexems["lex", i + 1].Value.ToString() == " } ")
+                            syntText += " } F ";
                         else
-                            syntText += "} F S ";
+                            syntText += " } F S ";
                         break;
                 }
             }
+            richTextSyntax.Text += syntText+"\n";
             //syntText = syntText.Replace("prog ", String.Empty);
             //syntText = syntText.Replace("end.", String.Empty);
             //Згормаємо все те що в лапках (бо це рядкова константа)
             //Якщо кількість лапок непарна - згортається все після лапки
-            int firstIndex, secondIndex;
-            while (syntText.Contains("\""))
+            //int firstIndex, secondIndex;
+            //while (syntText.Contains("\""))
+            //{
+            //    firstIndex = syntText.IndexOf('\"');
+            //    secondIndex = syntText.IndexOf('\"', firstIndex + 1);
+            //    if (secondIndex < 0)
+            //    {
+            //        syntText = syntText.Remove(firstIndex, syntText.Length - firstIndex);
+            //        break;
+            //    }
+            //    syntText = syntText.Remove(firstIndex, secondIndex - firstIndex + 1);
+            //    syntText = syntText.Insert(firstIndex, "E");
+            //}
+            //syntText.TrimEnd(new[] {' '});
+            
+            // згортка порівнянь
+            while (syntText.Contains("a < a") || syntText.Contains("a > a")
+                   || syntText.Contains("a != a") || syntText.Contains("a == a")
+                   || syntText.Contains("a < c") || syntText.Contains("a > c")
+                   || syntText.Contains("a != c") || syntText.Contains("a == c")
+                   || syntText.Contains("c < c") || syntText.Contains("c > c")
+                   || syntText.Contains("c != c") || syntText.Contains("c == c")
+                   || syntText.Contains("c < a") || syntText.Contains("c > a")
+                   || syntText.Contains("c != a") || syntText.Contains("c == a"))
             {
-                firstIndex = syntText.IndexOf('\"');
-                secondIndex = syntText.IndexOf('\"', firstIndex + 1);
-                if (secondIndex < 0)
-                {
-                    syntText = syntText.Remove(firstIndex, syntText.Length - firstIndex);
-                    break;
-                }
-                syntText = syntText.Remove(firstIndex, secondIndex - firstIndex + 1);
-                syntText = syntText.Insert(firstIndex, "E");
+                syntText = syntText.Replace("a < a", "D");
+                syntText = syntText.Replace("a > a", "D");
+                syntText = syntText.Replace("a == a", "D");
+                syntText = syntText.Replace("a != a", "D");
+                syntText = syntText.Replace("c < c", "D");
+                syntText = syntText.Replace("c > c", "D");
+                syntText = syntText.Replace("c == c", "D");
+                syntText = syntText.Replace("c != c", "D");
+                syntText = syntText.Replace("a < c", "D");
+                syntText = syntText.Replace("a > c", "D");
+                syntText = syntText.Replace("a == c", "D");
+                syntText = syntText.Replace("a != c", "D");
+                syntText = syntText.Replace("c < a", "D");
+                syntText = syntText.Replace("c > a", "D");
+                syntText = syntText.Replace("c == a", "D");
+                syntText = syntText.Replace("c != a", "D");
             }
-            syntText.TrimEnd(new[] {' '});
-            
-            //--згортка умов--
-            //while (syntText.Contains("E > E") || syntText.Contains("E < E") || syntText.Contains("E == E") ||
-            //       syntText.Contains("( T )"))
-            //{
-            //    syntText = syntText.Replace("E > E", "T");
-            //    syntText = syntText.Replace("E < E", "T");
-            //    syntText = syntText.Replace("E == E", "T");
-            //    syntText = syntText.Replace("( T )", "T");
-            //}
-            
-            ////--Згортка мат. операцій--
 
-            //while (syntText.Contains("E + E")||syntText.Contains("E - E")||syntText.Contains("E = E")||syntText.Contains("( E )"))
-            //{
-            //    syntText = syntText.Replace("E + E", "E");
-            //    syntText = syntText.Replace("E - E", "E");
-            //    syntText = syntText.Replace("E = E", "E");
-            //    syntText = syntText.Replace("( E )", "E");
-            //}
+            while (syntText.Contains("a + a") || syntText.Contains("a - a")
+     || syntText.Contains("( a )") || syntText.Contains("c + c")
+     || syntText.Contains("c - c") || syntText.Contains("( c )")
+    || syntText.Contains("a + c") || syntText.Contains("a - c")
+    || syntText.Contains("c + a") || syntText.Contains("c - a")
+    || syntText.Contains("a --"))
+            {
+                syntText = syntText.Replace("a + a", "E ");
+                syntText = syntText.Replace("a - a", "E ");
+                syntText = syntText.Replace("( a )", "( E ) ");
+                syntText = syntText.Replace("c + c", "E ");
+                syntText = syntText.Replace("c - c", "E ");
+                syntText = syntText.Replace("( c )", "( E ) ");
+                syntText = syntText.Replace("a + c", "E ");
+                syntText = syntText.Replace("a - c", "E ");
+                syntText = syntText.Replace("c + a", "E ");
+                syntText = syntText.Replace("c - a", "E ");
+                syntText = syntText.Replace("a --", " E ");
+            }
+            richTextSyntax.Text += syntText + "\n";
+            //згортка логічних операцій
 
-            ////--Згортка дій Е--
+            while (syntText.Contains("c & c") || syntText.Contains("c || c") 
+                || syntText.Contains("! ( c )") || syntText.Contains("a & a") 
+                || syntText.Contains("a || a") || syntText.Contains("! ( a )"))
+            {
+                syntText = syntText.Replace("a & a", "B");
+                syntText = syntText.Replace("a || a", "B");
+                syntText = syntText.Replace("! ( a )", "B");
+                syntText = syntText.Replace("c & c", "B");
+                syntText = syntText.Replace("c || c", "B");
+                syntText = syntText.Replace("! ( c )", "B");
+                
+                
+            }
 
-            //while (syntText.Contains("int E")||syntText.Contains("S E F")||syntText.Contains("B B"))
-            //{
-            //    syntText = syntText.Replace("int E", "E");
-            //    syntText = syntText.Replace("S E F", "B");
-            //    syntText = syntText.Replace("B B", "B");
-            //}
+            //згортка присвоєнь
+            //prog do { int a = E  ; if ( D ) int E  ; else E  ; } (E  ; while ( D ) int a = ( B ) ; int a = ( B ) ; int a = ( B ) ; int a = ! ( E )  ; end. 
+            while (syntText.Contains("a = ( B )") || syntText.Contains("a = E")
+                || syntText.Contains("a = ! ( E )") || syntText.Contains("a = ! ( B )")
+                ||syntText.Contains("a = a") || syntText.Contains("a = c")
+                ||syntText.Contains(" E "))
+            {
+                syntText=syntText.Replace("a = ( B )", "O ");
+                syntText = syntText.Replace("a = E", "O ");
+                syntText = syntText.Replace("a = ! ( E )", "O ");
+                syntText = syntText.Replace("a = ! ( B )", "O ");
+                syntText = syntText.Replace("a = a", "O ");
+                syntText = syntText.Replace("a = c", "O ");
+                syntText = syntText.Replace(" E ", " O ");
+            }
+            syntText = TextEditor.SpaceCorrector(syntText);
+            richTextSyntax.Text += syntText+"\n";
 
-            ////Згортка дій В блоки
+            while (syntText.Contains("int O"))
+                syntText = syntText.Replace("int O", "O ");
+            richTextSyntax.Text += syntText + "\n";
+            syntText = TextEditor.SpaceCorrector(syntText);
 
-            //while (syntText.Contains("do { B } while T")||syntText.Contains("if T { B }")||syntText.Contains("else { B }")||syntText.Contains("S E F")||syntText.Contains("B B"))
-            //{
-            //    syntText = syntText.Replace("do { B } while T", "E");
-            //    syntText = syntText.Replace("if T { B }", "E");
-            //    syntText = syntText.Replace("else { B }", "E");
-            //    syntText = syntText.Replace("S E F", "B");
-            //    syntText = syntText.Replace("B B", "B");
-            //}
+            while (syntText.Contains("if ( D ) O ; else O ;")
+                   || syntText.Contains("if ( D ) O ;"))
+            {
+                syntText = syntText.Replace("if ( D ) O ; else O ;", "O ");
+                syntText = syntText.Replace("if ( D ) O ;", "O ");
+            }
+            syntText = TextEditor.SpaceCorrector(syntText);
+            richTextSyntax.Text += syntText + "\n";
+
+            syntText = TextEditor.Convolution("{", "}", syntText, "L");
+            richTextSyntax.Text += syntText + "\n";
+
+            while (syntText.Contains("do L while ( D ) ") || syntText.Contains("L L"))
+            {
+                syntText = syntText.Replace("do L while ( D )", "L ");
+                syntText = syntText.Replace("L L", "L ");
+            }
+            syntText = TextEditor.SpaceCorrector(syntText);
+            richTextSyntax.Text += syntText + "\n";
+
+            while (syntText.Contains("L L"))
+            {
+                syntText = syntText.Replace("L L", "L ");
+            }
+            richTextSyntax.Text += syntText + "\n";
 
             //Список можливих синтаксичних помилок
             //Перевірка на наявність ключових слів prog i end.
@@ -408,7 +486,7 @@ namespace CursCompiler.Forms
                 }
 
             }
-            richTextSyntax.Text = syntText+"\n";
+            //richTextSyntax.Text = syntText+"\n";todo if error uncomment
             //end of syntax Analiz
 
             //Semantic analiz

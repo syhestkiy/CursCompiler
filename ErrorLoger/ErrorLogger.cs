@@ -54,7 +54,7 @@ namespace CursCompiler.ErrorLoger
             _errorType = errorType;
             _errorItem = errorItem;
             _rowNumber = rowNum;
-            _symbolNumber = symbolNum;
+            _symbolNumber = symbolNum ;
             _description = desription;
         }
         //constructor for syntax errors
@@ -82,12 +82,31 @@ namespace CursCompiler.ErrorLoger
             string errors=String.Empty;
             foreach (var error in Error.ListOfErrors)
             {
-                errors += error.NumberOfError.ToString() + " "
-                          + error.ErrorType.ToString() + " "
-                          + error.ErrorItem.ToString() + " "
-                          + error.RowNumber.ToString() + " "
-                          + error.SymbolNumber.ToString() + " "
-                          + error.Description.ToString() + "\n";
+                if (error.ErrorType == "1")
+                {
+                    errors += error.NumberOfError.ToString() + " "
+                              + "лексична помилка "
+                              + error.ErrorItem.ToString() + " "
+                              + error.RowNumber.ToString() + " рядок "
+                              + error.SymbolNumber.ToString() + " символ "
+                              + error.Description.ToString() + "\n";
+                }
+                else if( error.ErrorType == "3")
+                {
+                    errors += error.NumberOfError.ToString() + " "
+                              + "семантична помилка "
+                              + error.ErrorItem.ToString() + " "
+                              + error.RowNumber.ToString() + " рядок "
+                              + error.SymbolNumber.ToString() + " символ "
+                              + error.Description.ToString() + "\n";
+                }
+                else
+                {
+                    errors += error.NumberOfError.ToString() + " "
+                              + "синтаксична помилка "
+                              + error.ErrorItem.ToString() + " "
+                              + error.Description.ToString() + "\n";
+                }
             }
             return errors;
         }

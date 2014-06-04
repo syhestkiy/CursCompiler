@@ -4,6 +4,25 @@ namespace CursCompiler.LexAnalyzer
 {
     internal class TextEditor
     {
+        public static string Convolution(string symbOpen, string symbClose, string text, string charToReplase)
+        {
+            int op = 0;
+            int cl = 0;
+            while (text.Contains(symbOpen))
+            {
+                op = text.IndexOf(symbOpen, op, StringComparison.Ordinal);
+                cl = text.IndexOf(symbClose, op, StringComparison.Ordinal);
+                var temp = text.ToCharArray();
+                string stringtemp=String.Empty;
+                for (int i = op; i <= cl; i++)
+                {
+                    stringtemp += temp[i];
+                }
+                text = text.Replace(stringtemp,charToReplase);
+            }
+            return text;
+        }
+
         public static string CommentRemover(string commentOpen, string commentClose, string textmas)
         {
             int op = 0;
@@ -16,7 +35,6 @@ namespace CursCompiler.LexAnalyzer
             }
             return textmas;
         }
-
 
         public static string SpaceCorrector(string textline)
         {
@@ -58,8 +76,5 @@ namespace CursCompiler.LexAnalyzer
             textline = textline + " ";
             return textline;
         }
-
-
-
     }
 }
