@@ -104,6 +104,7 @@
             this.btnCompile.Text = "Compile";
             this.btnCompile.UseVisualStyleBackColor = true;
             this.btnCompile.Click += new System.EventHandler(this.btnCompile_Click);
+            this.btnCompile.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             // 
             // btnDeleteTextFromTextEdit
             // 
@@ -115,6 +116,7 @@
             this.btnDeleteTextFromTextEdit.Text = "Delete text";
             this.btnDeleteTextFromTextEdit.UseVisualStyleBackColor = true;
             this.btnDeleteTextFromTextEdit.Click += new System.EventHandler(this.btnDeleteTextFromTextEdit_Click);
+            this.btnDeleteTextFromTextEdit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             // 
             // btnOpen
             // 
@@ -126,6 +128,7 @@
             this.btnOpen.Text = "Open";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            this.btnOpen.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             // 
             // btnSaveAs
             // 
@@ -137,6 +140,7 @@
             this.btnSaveAs.Text = "Save As";
             this.btnSaveAs.UseVisualStyleBackColor = true;
             this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
+            this.btnSaveAs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             // 
             // richTxtEntryProgram
             // 
@@ -249,6 +253,7 @@
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            this.btnExit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             // 
             // MainForm
             // 
@@ -261,6 +266,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Курсова робота з СПЗ";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.listOfTabs.ResumeLayout(false);
             this.tabTxtEditOrOpenExistingFile.ResumeLayout(false);
             this.tabLexems.ResumeLayout(false);

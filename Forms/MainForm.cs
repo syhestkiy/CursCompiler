@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,10 @@ namespace CursCompiler.Forms
             gridIdintifers.Columns[2].Width = 90;
             gridIdintifers.Columns[3].Width = 85;
             gridIdintifers.Columns[4].Width = 88;
+            
         }
+
+        
 
         private void btnExit_Click(object sender, EventArgs e)
         {
@@ -541,5 +545,31 @@ namespace CursCompiler.Forms
                 errorForm.Show();
             }
         }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Control)
+                switch (e.KeyCode)
+                {
+                    case Keys.O:
+                        btnOpen.PerformClick();
+                        break;
+                    case Keys.S:
+                        btnSaveAs.PerformClick();
+                        break;
+                    case Keys.D:
+                        btnDeleteTextFromTextEdit.PerformClick();
+                        break;
+                    case Keys.K:
+                        btnCompile.PerformClick();
+                        break;
+                    case Keys.Q:
+                        btnExit.PerformClick();
+                        break;
+                }
+        }
+
+
     }
+
 }
