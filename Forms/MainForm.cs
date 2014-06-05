@@ -36,6 +36,8 @@ namespace CursCompiler.Forms
             gridIdintifers.Columns[2].Width = 90;
             gridIdintifers.Columns[3].Width = 85;
             gridIdintifers.Columns[4].Width = 88;
+
+            lblRowNumber.Font = new Font(richTxtEntryProgram.Font.FontFamily, richTxtEntryProgram.Font.Size);
             
         }
 
@@ -490,28 +492,37 @@ namespace CursCompiler.Forms
                 }
 
             }
-            //richTextSyntax.Text = syntText+"\n";todo if error uncomment
             //end of syntax Analiz
 
             //Semantic analiz
             //список оголошених ідентифікаторів
             int declaredIdentCounter = 0;
+            bool twiceDeclared = false;
             for (int i = 0; i < gridLexems.RowCount-1; i++)
             {
                 if (gridLexems["description", i].Value.ToString() == "Змінна")
                 {
-                    try
-                    {
-                        if (gridLexems["lex", i - 1].Value.ToString() == "int") //можливе розширення типів даних
+                        for(int k=0;k<gridIdintifers.RowCount-1;k++)
+                            if (gridIdintifers["idintifer", k].Value.ToString() == gridLexems["lex", i].Value.ToString())
+                                twiceDeclared = true;
+
+                        if (gridLexems["lex", i - 1].Value.ToString() == "int"&&twiceDeclared==false) //можливе розширення типів даних
                         {
                             declaredIdentCounter++;
                             gridIdintifers.Rows.Add(declaredIdentCounter.ToString(),
                                 gridLexems["lex", i].Value.ToString(), "int",
                                 gridLexems["rowNumber", i].Value , gridLexems["charNumber", i].Value);
+                            
                         }
-                    }
-                    catch
-                    {   }
+                        else if (gridLexems["lex", i - 1].Value.ToString() == "int" && twiceDeclared == true)
+                        {
+                            errorCounter++;//формуємо помилку що така змінна вже була оголошена
+                            ErrorLogger.AddError(new Error(errorCounter, "3", gridLexems["lex", i].Value.ToString(),
+                                Convert.ToInt32(gridLexems["rowNumber", i].Value.ToString()),
+                                Convert.ToInt32(gridLexems["charNumber", i].Value.ToString()), "Змінна вже була оголошена"));
+                            
+                        }
+                        twiceDeclared = false;//для наступного кроку перевірки
                 }
 
 
@@ -544,6 +555,11 @@ namespace CursCompiler.Forms
                 Form errorForm=new ErrorReportForm();
                 errorForm.Show();
             }
+            else
+            {
+                MessageBox.Show("Успішно скомпільовано","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+            
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -569,6 +585,49 @@ namespace CursCompiler.Forms
                 }
         }
 
+        private void UpdateNumberLabel()
+        {
+            Point pos =new Point(0,0);
+            int firstIndex = richTxtEntryProgram.GetCharIndexFromPosition(pos);
+            int firstLine = richTxtEntryProgram.GetLineFromCharIndex(firstIndex);
+
+            pos.X = ClientRectangle.Width;
+            pos.Y = ClientRectangle.Height;
+
+            int lastIndex = richTxtEntryProgram.GetCharIndexFromPosition(pos);
+            int lastLine = richTxtEntryProgram.GetLineFromCharIndex(lastIndex);
+
+            pos = richTxtEntryProgram.GetPositionFromCharIndex(lastIndex);
+
+            lblRowNumber.Text = "";
+            for (int i = firstLine; i < lastLine+2; i++)
+            {
+                lblRowNumber.Text += i + 1 + "\n";
+            }
+        }
+
+        private void richTxtEntryProgram_TextChanged(object sender, EventArgs e)
+        {
+            UpdateNumberLabel();
+        }
+
+        private void richTxtEntryProgram_VScroll(object sender, EventArgs e)
+        {
+            int d = richTxtEntryProgram.GetPositionFromCharIndex(1).Y%(richTxtEntryProgram.Font.Height+1);
+            lblRowNumber.Location=new Point(0,d);
+            UpdateNumberLabel();
+        }
+
+        private void richTxtEntryProgram_Resize(object sender, EventArgs e)
+        {
+            richTxtEntryProgram_VScroll(null, null);
+        }
+
+        private void richTxtEntryProgram_FontChanged(object sender, EventArgs e)
+        {
+            UpdateNumberLabel();
+            richTxtEntryProgram_VScroll(null, null);
+        }
 
     }
 

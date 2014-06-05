@@ -31,6 +31,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.listOfTabs = new System.Windows.Forms.TabControl();
             this.tabTxtEditOrOpenExistingFile = new System.Windows.Forms.TabPage();
+            this.lblRowNumber = new System.Windows.Forms.Label();
             this.btnCompile = new System.Windows.Forms.Button();
             this.btnDeleteTextFromTextEdit = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
@@ -81,6 +82,7 @@
             // 
             // tabTxtEditOrOpenExistingFile
             // 
+            this.tabTxtEditOrOpenExistingFile.Controls.Add(this.lblRowNumber);
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnCompile);
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnDeleteTextFromTextEdit);
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnOpen);
@@ -93,6 +95,17 @@
             this.tabTxtEditOrOpenExistingFile.TabIndex = 0;
             this.tabTxtEditOrOpenExistingFile.Text = "Editor";
             this.tabTxtEditOrOpenExistingFile.UseVisualStyleBackColor = true;
+            // 
+            // lblRowNumber
+            // 
+            this.lblRowNumber.AutoSize = true;
+            this.lblRowNumber.Location = new System.Drawing.Point(8, 7);
+            this.lblRowNumber.Name = "lblRowNumber";
+            this.lblRowNumber.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lblRowNumber.Size = new System.Drawing.Size(13, 26);
+            this.lblRowNumber.TabIndex = 5;
+            this.lblRowNumber.Text = "1\r\n2";
+            this.lblRowNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnCompile
             // 
@@ -147,11 +160,15 @@
             this.richTxtEntryProgram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTxtEntryProgram.Location = new System.Drawing.Point(8, 7);
+            this.richTxtEntryProgram.Location = new System.Drawing.Point(40, 7);
             this.richTxtEntryProgram.Name = "richTxtEntryProgram";
-            this.richTxtEntryProgram.Size = new System.Drawing.Size(626, 288);
+            this.richTxtEntryProgram.Size = new System.Drawing.Size(594, 288);
             this.richTxtEntryProgram.TabIndex = 0;
             this.richTxtEntryProgram.Text = "";
+            this.richTxtEntryProgram.VScroll += new System.EventHandler(this.richTxtEntryProgram_VScroll);
+            this.richTxtEntryProgram.FontChanged += new System.EventHandler(this.richTxtEntryProgram_FontChanged);
+            this.richTxtEntryProgram.TextChanged += new System.EventHandler(this.richTxtEntryProgram_TextChanged);
+            this.richTxtEntryProgram.Resize += new System.EventHandler(this.richTxtEntryProgram_Resize);
             // 
             // tabLexems
             // 
@@ -269,6 +286,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.listOfTabs.ResumeLayout(false);
             this.tabTxtEditOrOpenExistingFile.ResumeLayout(false);
+            this.tabTxtEditOrOpenExistingFile.PerformLayout();
             this.tabLexems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridLexems)).EndInit();
             this.tabListOfIdintifers.ResumeLayout(false);
@@ -301,6 +319,7 @@
         private System.Windows.Forms.TabPage tabTriads;
         private System.Windows.Forms.DataGridView gridTriads;
         private System.Windows.Forms.TabPage tabGeneretedCode;
+        private System.Windows.Forms.Label lblRowNumber;
     }
 }
 
