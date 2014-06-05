@@ -48,6 +48,7 @@
             this.tabGeneretedCode = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.listOfTabs.SuspendLayout();
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
@@ -82,6 +83,7 @@
             // 
             // tabTxtEditOrOpenExistingFile
             // 
+            this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnHelp);
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.lblRowNumber);
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnCompile);
             this.tabTxtEditOrOpenExistingFile.Controls.Add(this.btnDeleteTextFromTextEdit);
@@ -99,7 +101,8 @@
             // lblRowNumber
             // 
             this.lblRowNumber.AutoSize = true;
-            this.lblRowNumber.Location = new System.Drawing.Point(8, 7);
+            this.lblRowNumber.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lblRowNumber.Location = new System.Drawing.Point(3, 3);
             this.lblRowNumber.Name = "lblRowNumber";
             this.lblRowNumber.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lblRowNumber.Size = new System.Drawing.Size(13, 26);
@@ -160,9 +163,9 @@
             this.richTxtEntryProgram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTxtEntryProgram.Location = new System.Drawing.Point(40, 7);
+            this.richTxtEntryProgram.Location = new System.Drawing.Point(40, 0);
             this.richTxtEntryProgram.Name = "richTxtEntryProgram";
-            this.richTxtEntryProgram.Size = new System.Drawing.Size(594, 288);
+            this.richTxtEntryProgram.Size = new System.Drawing.Size(594, 301);
             this.richTxtEntryProgram.TabIndex = 0;
             this.richTxtEntryProgram.Text = "";
             this.richTxtEntryProgram.VScroll += new System.EventHandler(this.richTxtEntryProgram_VScroll);
@@ -272,6 +275,17 @@
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             this.btnExit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             // 
+            // btnHelp
+            // 
+            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHelp.Location = new System.Drawing.Point(640, 183);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(75, 23);
+            this.btnHelp.TabIndex = 6;
+            this.btnHelp.Text = "Help";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,6 +334,7 @@
         private System.Windows.Forms.DataGridView gridTriads;
         private System.Windows.Forms.TabPage tabGeneretedCode;
         private System.Windows.Forms.Label lblRowNumber;
+        private System.Windows.Forms.Button btnHelp;
     }
 }
 

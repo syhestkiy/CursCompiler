@@ -582,6 +582,9 @@ namespace CursCompiler.Forms
                     case Keys.Q:
                         btnExit.PerformClick();
                         break;
+                    case Keys.H:
+                        btnHelp.PerformClick();
+                        break;
                 }
         }
 
@@ -627,6 +630,12 @@ namespace CursCompiler.Forms
         {
             UpdateNumberLabel();
             richTxtEntryProgram_VScroll(null, null);
+        }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            Form helpForm=new HelpForm();
+            helpForm.Show();
         }
 
     }
