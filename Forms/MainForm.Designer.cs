@@ -31,6 +31,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.listOfTabs = new System.Windows.Forms.TabControl();
             this.tabTxtEditOrOpenExistingFile = new System.Windows.Forms.TabPage();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.lblRowNumber = new System.Windows.Forms.Label();
             this.btnCompile = new System.Windows.Forms.Button();
             this.btnDeleteTextFromTextEdit = new System.Windows.Forms.Button();
@@ -48,7 +49,6 @@
             this.tabGeneretedCode = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.btnHelp = new System.Windows.Forms.Button();
             this.listOfTabs.SuspendLayout();
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
@@ -97,6 +97,17 @@
             this.tabTxtEditOrOpenExistingFile.TabIndex = 0;
             this.tabTxtEditOrOpenExistingFile.Text = "Editor";
             this.tabTxtEditOrOpenExistingFile.UseVisualStyleBackColor = true;
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHelp.Location = new System.Drawing.Point(640, 183);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(75, 23);
+            this.btnHelp.TabIndex = 6;
+            this.btnHelp.Text = "Help";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // lblRowNumber
             // 
@@ -163,6 +174,7 @@
             this.richTxtEntryProgram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTxtEntryProgram.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.richTxtEntryProgram.Location = new System.Drawing.Point(40, 0);
             this.richTxtEntryProgram.Name = "richTxtEntryProgram";
             this.richTxtEntryProgram.Size = new System.Drawing.Size(594, 301);
@@ -186,6 +198,9 @@
             // 
             // gridLexems
             // 
+            this.gridLexems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridLexems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridLexems.Location = new System.Drawing.Point(0, 0);
             this.gridLexems.Name = "gridLexems";
@@ -205,6 +220,9 @@
             // 
             // gridIdintifers
             // 
+            this.gridIdintifers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridIdintifers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridIdintifers.Location = new System.Drawing.Point(0, 0);
             this.gridIdintifers.Name = "gridIdintifers";
@@ -274,17 +292,6 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             this.btnExit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
-            // 
-            // btnHelp
-            // 
-            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHelp.Location = new System.Drawing.Point(640, 183);
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(75, 23);
-            this.btnHelp.TabIndex = 6;
-            this.btnHelp.Text = "Help";
-            this.btnHelp.UseVisualStyleBackColor = true;
-            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // MainForm
             // 

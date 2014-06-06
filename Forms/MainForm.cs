@@ -36,7 +36,11 @@ namespace CursCompiler.Forms
             gridIdintifers.Columns[2].Width = 90;
             gridIdintifers.Columns[3].Width = 85;
             gridIdintifers.Columns[4].Width = 88;
-
+            //заповнюємо шапку таблиці тріад
+            gridTriads.Columns.Add("triadNumber", "№ тріади");
+            gridTriads.Columns.Add("triad", "Тріада");
+            gridTriads.Columns[0].Width = 200;
+            gridTriads.Columns[1].Width = 270;
             lblRowNumber.Font = new Font(richTxtEntryProgram.Font.FontFamily, richTxtEntryProgram.Font.Size);
             
         }
@@ -86,9 +90,7 @@ namespace CursCompiler.Forms
 
         private void btnSaveAs_Click(object sender, EventArgs e)
         {
-            var save = new SaveFileDialog();
-            save.FileName = "DefaultOutputName.txt";
-            save.Filter = "Text File | *.txt";
+            var save = new SaveFileDialog {FileName = "DefaultOutputName.txt", Filter = @"Text File | *.txt"};
             if (save.ShowDialog() == DialogResult.OK)
             {
                 string line;
@@ -129,23 +131,23 @@ namespace CursCompiler.Forms
             }
 
             lexProg = TextEditor.CommentRemover("(*", "*)", lexProg);
-            string[] lexLines = lexProg.Split(new Char[] { '\r' });
+            var lexLines = lexProg.Split(new[] { '\r' });
             lexProg = String.Empty;
             for (int i = 0; i < lexLines.Length - 1; i++)
             {
                 lexProg += TextEditor.SpaceCorrector(lexLines[i]);
             }
-            int wordCount = 0; //word counter
-            int unknownLexemsCount = 0; //counter for unknown lexems
+            var wordCount = 0; //word counter
+            var unknownLexemsCount = 0; //counter for unknown lexems
             int sting = 0, sts = 0; //зміщення в тексті при пошуку лексем
             int row = 0, symbol = 0;
-            string tempStringConstant = String.Empty; //для збірки рядкових констант
-            bool tsc = false;
-            int quotesCount = 0;
-            int errorCounter = 0;
+            var tempStringConstant = String.Empty; //для збірки рядкових констант
+            var tsc = false;
+            var quotesCount = 0;
+            var errorCounter = 0;
 
             //проводимо перевірку по словах 
-            string[] lexWords = lexProg.Split(new char[] { ' ' });
+            var lexWords = lexProg.Split(new[] { ' ' });
             foreach (var temp in lexWords)
             {
                 if ((temp == "\""))
@@ -156,11 +158,11 @@ namespace CursCompiler.Forms
                 {
                     wordCount++;
                     //записуємо координати лексеми
-                    row = richTxtEntryProgram.GetLineFromCharIndex(richTxtEntryProgram.Text.IndexOf(temp, sting));
-                    symbol = richTxtEntryProgram.Lines[row].IndexOf(temp, sts);
-                    if (richTxtEntryProgram.Lines[row].LastIndexOf(temp) != richTxtEntryProgram.Lines[row].IndexOf(temp))
+                    row = richTxtEntryProgram.GetLineFromCharIndex(richTxtEntryProgram.Text.IndexOf(temp, sting, StringComparison.Ordinal));
+                    symbol = richTxtEntryProgram.Lines[row].IndexOf(temp, sts, StringComparison.Ordinal);
+                    if (richTxtEntryProgram.Lines[row].LastIndexOf(temp, StringComparison.Ordinal) != richTxtEntryProgram.Lines[row].IndexOf(temp, StringComparison.Ordinal))
                     {
-                        sts = richTxtEntryProgram.Lines[row].IndexOf(temp, sts);
+                        sts = richTxtEntryProgram.Lines[row].IndexOf(temp, sts, StringComparison.Ordinal);
                     }
                     else
                     {
@@ -168,7 +170,7 @@ namespace CursCompiler.Forms
                     }
                     row++;
                     symbol++;
-                    sting = richTxtEntryProgram.Text.IndexOf(temp, sting);
+                    sting = richTxtEntryProgram.Text.IndexOf(temp, sting, StringComparison.Ordinal);
 
                     //перевіряємо до якого класу належить лексема
                     //KeyWord
@@ -283,26 +285,7 @@ namespace CursCompiler.Forms
                 }
             }
             richTextSyntax.Text += syntText+"\n";
-            //syntText = syntText.Replace("prog ", String.Empty);
-            //syntText = syntText.Replace("end.", String.Empty);
-            //Згормаємо все те що в лапках (бо це рядкова константа)
-            //Якщо кількість лапок непарна - згортається все після лапки
-            //int firstIndex, secondIndex;
-            //while (syntText.Contains("\""))
-            //{
-            //    firstIndex = syntText.IndexOf('\"');
-            //    secondIndex = syntText.IndexOf('\"', firstIndex + 1);
-            //    if (secondIndex < 0)
-            //    {
-            //        syntText = syntText.Remove(firstIndex, syntText.Length - firstIndex);
-            //        break;
-            //    }
-            //    syntText = syntText.Remove(firstIndex, secondIndex - firstIndex + 1);
-            //    syntText = syntText.Insert(firstIndex, "E");
-            //}
-            //syntText.TrimEnd(new[] {' '});
-            
-            // згортка порівнянь
+          // згортка порівнянь
             while (syntText.Contains("a < a") || syntText.Contains("a > a")
                    || syntText.Contains("a != a") || syntText.Contains("a == a")
                    || syntText.Contains("a < c") || syntText.Contains("a > c")
@@ -367,7 +350,6 @@ namespace CursCompiler.Forms
             }
 
             //згортка присвоєнь
-            //prog do { int a = E  ; if ( D ) int E  ; else E  ; } (E  ; while ( D ) int a = ( B ) ; int a = ( B ) ; int a = ( B ) ; int a = ! ( E )  ; end. 
             while (syntText.Contains("a = ( B )") || syntText.Contains("a = E")
                 || syntText.Contains("a = ! ( E )") || syntText.Contains("a = ! ( B )")
                 ||syntText.Contains("a = a") || syntText.Contains("a = c")
@@ -550,6 +532,42 @@ namespace CursCompiler.Forms
                     idFinded = false;//for next iteration
                 }
             }
+            //end of symantic analiz
+
+            //Make triads
+            int triadsCounter = 1;
+            for (int i = 0; i < gridLexems.RowCount - 1; i++)
+            {
+                if (gridLexems["description", i].Value.ToString() == "Змінна" &&
+                    gridLexems["lex", i - 1].Value.ToString() == "int"&&
+                    gridLexems["lex",i+2].Value.ToString()!="!")
+                {
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter.ToString(),
+                        gridLexems["lex", i + 4].Value.ToString() + " (" + gridLexems["lex", i + 3].Value.ToString() +
+                        " , " + gridLexems["lex", i + 5].Value.ToString() + ")");
+                    
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter.ToString(),
+                        gridLexems["lex", i + 1].Value.ToString() + " (" + gridLexems["lex", i].Value.ToString() + " , " +
+                        "^" + (triadsCounter - 1).ToString() + ")");
+                    
+                }
+                if (gridLexems["description", i].Value.ToString() == "Змінна" &&
+                    gridLexems["lex", i - 1].Value.ToString() == "int" &&
+                    gridLexems["lex", i + 2].Value.ToString() == "!")
+                {
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter,
+                        gridLexems["lex", i + 2].Value.ToString() + " (" + gridLexems["lex", i + 4].Value.ToString() +
+                        ",0 )");
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter,
+                        gridLexems["lex", i + 1].Value.ToString() + " (" + gridLexems["lex", i].Value.ToString() + ",^" +
+                        (triadsCounter - 1).ToString()+" )");
+                }
+            }
+            //end of triads maker
             if (errorCounter > 0)
             {
                 Form errorForm=new ErrorReportForm();
@@ -557,11 +575,11 @@ namespace CursCompiler.Forms
             }
             else
             {
-                MessageBox.Show("Успішно скомпільовано","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show(@"Успішно скомпільовано",@"Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
             
         }
-
+        //обробка клавіатурних скорочень
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Control)
@@ -587,7 +605,7 @@ namespace CursCompiler.Forms
                         break;
                 }
         }
-
+        //нумерація рядків 
         private void UpdateNumberLabel()
         {
             Point pos =new Point(0,0);
