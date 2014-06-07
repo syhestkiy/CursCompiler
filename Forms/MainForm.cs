@@ -38,9 +38,14 @@ namespace CursCompiler.Forms
             gridIdintifers.Columns[4].Width = 88;
             //заповнюємо шапку таблиці тріад
             gridTriads.Columns.Add("triadNumber", "№ тріади");
-            gridTriads.Columns.Add("triad", "Тріада");
-            gridTriads.Columns[0].Width = 200;
-            gridTriads.Columns[1].Width = 270;
+            gridTriads.Columns.Add("operation", "Операція");
+            gridTriads.Columns.Add("operand1", "Операнд 1");
+            gridTriads.Columns.Add("operand2", "Операнд 2");
+            gridTriads.Columns[0].Width = 124;
+            gridTriads.Columns[1].Width = 140;
+            gridTriads.Columns[2].Width = 200;
+            gridTriads.Columns[3].Width = 200;
+
             lblRowNumber.Font = new Font(richTxtEntryProgram.Font.FontFamily, richTxtEntryProgram.Font.Size);
             
         }
@@ -406,7 +411,7 @@ namespace CursCompiler.Forms
                 ErrorLogger.AddError(new Error(errorCounter,"2","Відсутнє ключове слово \"prog\""));
             }
 
-            if (richTxtEntryProgram.Text.IndexOf("end.") != richTxtEntryProgram.Text.Length - 5)//-5 тому що останній символ \n
+            if (richTxtEntryProgram.Text.IndexOf("end.") != richTxtEntryProgram.Text.Length - 6)//-5 тому що останній символ \n
             {
                 errorCounter++;
                 syntaxErrorCount++;
@@ -535,36 +540,83 @@ namespace CursCompiler.Forms
             //end of symantic analiz
 
             //Make triads
-            int triadsCounter = 1;
+            int triadsCounter = 0;
             for (int i = 0; i < gridLexems.RowCount - 1; i++)
             {
+                //для лексем типу a = (op1+op2)
                 if (gridLexems["description", i].Value.ToString() == "Змінна" &&
                     gridLexems["lex", i - 1].Value.ToString() == "int"&&
                     gridLexems["lex",i+2].Value.ToString()!="!")
                 {
                     triadsCounter++;
-                    gridTriads.Rows.Add(triadsCounter.ToString(),
-                        gridLexems["lex", i + 4].Value.ToString() + " (" + gridLexems["lex", i + 3].Value.ToString() +
-                        " , " + gridLexems["lex", i + 5].Value.ToString() + ")");
+                    gridTriads.Rows.Add(triadsCounter.ToString()
+                        ,gridLexems["lex", i + 4].Value.ToString()
+                        ,gridLexems["lex", i + 3].Value.ToString()
+                        ,gridLexems["lex", i + 5].Value.ToString());
                     
                     triadsCounter++;
-                    gridTriads.Rows.Add(triadsCounter.ToString(),
-                        gridLexems["lex", i + 1].Value.ToString() + " (" + gridLexems["lex", i].Value.ToString() + " , " +
-                        "^" + (triadsCounter - 1).ToString() + ")");
+                    gridTriads.Rows.Add(triadsCounter.ToString()
+                        ,gridLexems["lex", i + 1].Value.ToString()
+                        ,gridLexems["lex", i].Value.ToString() 
+                        ,"^"+(triadsCounter - 1).ToString());
                     
                 }
+                //для лексем типу a=!(op)
                 if (gridLexems["description", i].Value.ToString() == "Змінна" &&
                     gridLexems["lex", i - 1].Value.ToString() == "int" &&
                     gridLexems["lex", i + 2].Value.ToString() == "!")
                 {
                     triadsCounter++;
-                    gridTriads.Rows.Add(triadsCounter,
-                        gridLexems["lex", i + 2].Value.ToString() + " (" + gridLexems["lex", i + 4].Value.ToString() +
-                        ",0 )");
+                    gridTriads.Rows.Add(triadsCounter
+                        ,gridLexems["lex", i + 2].Value.ToString()
+                        ,gridLexems["lex", i + 4].Value.ToString() 
+                        ,0.ToString());
                     triadsCounter++;
-                    gridTriads.Rows.Add(triadsCounter,
-                        gridLexems["lex", i + 1].Value.ToString() + " (" + gridLexems["lex", i].Value.ToString() + ",^" +
-                        (triadsCounter - 1).ToString()+" )");
+                    gridTriads.Rows.Add(triadsCounter
+                        ,gridLexems["lex", i + 1].Value.ToString() 
+                        ,gridLexems["lex", i].Value.ToString()
+                        ,"^"+(triadsCounter - 1).ToString()+" )");
+                }
+                //для лексем типу if(op1 <operation> op2)
+                if (gridLexems["lex", i].Value.ToString() == "if")
+                {
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i + 3].Value.ToString(),
+                        gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i + 4].Value.ToString());
+                }
+
+                //для лексеми типу а--;
+                if (gridLexems["description", i].Value.ToString() == "Змінна" &&
+                    gridLexems["lex", i + 1].Value.ToString() == "--")
+                {
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter, "-", gridLexems["lex", i].Value.ToString(), 1.ToString());
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter, "=", gridLexems["lex", i].Value.ToString(),
+                        "^"+(triadsCounter - 1).ToString());
+                }
+
+                //для лексеми типу do
+                if (gridLexems["lex", i].Value.ToString() == "do")
+                {
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), 0.ToString(), 0.ToString());
+                }
+
+                //для лексеми типу while
+                if (gridLexems["lex", i].Value.ToString() == "while")
+                {
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i + 3].Value.ToString(),
+                        gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i+4].Value.ToString());
+                    triadsCounter++;
+                    int temp = 0;
+                    for (int j = 0; j < gridTriads.RowCount - 1; j++)
+                    {
+                        if (gridTriads["operation", j].Value.ToString() == "do")
+                            temp = j;
+                    }
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), "^" + gridTriads["triadNumber",temp].Value.ToString(), 0);
                 }
             }
             //end of triads maker
