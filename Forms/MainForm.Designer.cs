@@ -306,6 +306,9 @@
             // 
             // richTxtGeneratedCode
             // 
+            this.richTxtGeneratedCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTxtGeneratedCode.Location = new System.Drawing.Point(0, 0);
             this.richTxtGeneratedCode.Name = "richTxtGeneratedCode";
             this.richTxtGeneratedCode.ReadOnly = true;

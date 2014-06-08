@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace CursCompiler.Forms
 {
     public partial class MainForm : Form
     {
+        public static int Increment(int inParam)
+        {
+            inParam = inParam + 1;
+            return inParam;
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -575,7 +582,7 @@ namespace CursCompiler.Forms
                     gridTriads.Rows.Add(triadsCounter
                         ,gridLexems["lex", i + 2].Value.ToString()
                         ,gridLexems["lex", i + 4].Value.ToString() 
-                        ,0.ToString(),1);
+                        ,0.ToString(),5);
                     triadsCounter++;
                     gridTriads.Rows.Add(triadsCounter
                         ,gridLexems["lex", i + 1].Value.ToString() 
@@ -588,6 +595,13 @@ namespace CursCompiler.Forms
                     triadsCounter++;
                     gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i + 3].Value.ToString(),
                         gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i + 4].Value.ToString(),3);
+                }
+
+                //else
+                if (gridLexems["lex", i].Value.ToString() == "else")
+                {
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), 0, 0,6.ToString());
                 }
 
                 //для конструкцій типу а--;
@@ -605,7 +619,7 @@ namespace CursCompiler.Forms
                 if (gridLexems["lex", i].Value.ToString() == "do")
                 {
                     triadsCounter++;
-                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), 0.ToString(), 0.ToString(),4);
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), 0.ToString(), 0.ToString(),7.ToString());
                 }
 
                 //для конструкції типу while
@@ -626,6 +640,25 @@ namespace CursCompiler.Forms
             }
             //end of triads maker
 
+            List<string> labelsOfElse=new List<string>(gridTriads.RowCount);
+            List<string> labelsOfDo=new List<string>(gridTriads.RowCount);
+            int labelElseCounter = 0;
+            int labelDoCounter = 0;
+            //додаємо блок який формує список міток
+            for (int i = 0; i < gridTriads.RowCount - 1;i++) 
+            {
+                if (gridTriads["operation", i].Value.ToString() == "do")
+                {
+                    labelsOfDo.Add("Loop"+labelDoCounter.ToString());
+                    labelDoCounter++;
+                }
+
+                if (gridTriads["operation", i].Value.ToString() == "else")
+                {
+                    labelsOfElse.Add("JUMP"+labelElseCounter.ToString());
+                    labelElseCounter++;
+                }
+            }
             //code generation
             //спочатру додаємо data segment і оголошені змінні
             richTxtGeneratedCode.Text += "data segment\n";
@@ -647,13 +680,73 @@ start:
 ; set segment registers:
         mov ax, data
         mov ds, ax
-        mov es, ax ";
+        mov es, ax 
+";
 
+            labelDoCounter = 0;
+            labelElseCounter = 0;
+            int lblDoPlaser = 0;
+            int lblElsePlaser = 0;
             for (int i = 0; i < gridTriads.RowCount - 1; i++)
             {
                 if (gridTriads["triadType", i].Value.ToString() == "1")
                 {
+                    richTxtGeneratedCode.Text += "\tmov ax," + gridTriads["operand1", i].Value.ToString()+"\n";
+                    richTxtGeneratedCode.Text += "\tmov bx," + gridTriads["operand2", i].Value.ToString() + "\n";
+                    if (gridTriads["operation", i].Value.ToString() == "+")
+                        richTxtGeneratedCode.Text += "\tadd ax,bx\n";
+                    if (gridTriads["operation", i].Value.ToString() == "-")
+                        richTxtGeneratedCode.Text += "\tsub ax,bx\n";
+                    if (gridTriads["operation", i].Value.ToString() == "&")
+                        richTxtGeneratedCode.Text += "\tand ax,bx\n";
+                    if (gridTriads["operation", i].Value.ToString() == "||")
+                        richTxtGeneratedCode.Text += "\tor ax,bx\n";
+                }
 
+                if (gridTriads["triadType", i].Value.ToString() == "2")
+                {
+                    richTxtGeneratedCode.Text+="\tmov "+gridTriads["operand1",i].Value.ToString()+",ax\n\n";
+                }
+                //todo виправити помилку OunOfRange яка виникає через іфчики 
+                if (gridTriads["triadType", i].Value.ToString() == "3")
+                {
+                    richTxtGeneratedCode.Text += "\tmov ax" + gridTriads["operand1", i].Value.ToString() + "\n";
+                    richTxtGeneratedCode.Text += "\tmov bx," + gridTriads["operand2", i].Value.ToString() + "\n";
+                    richTxtGeneratedCode.Text += "\tcmp ax,bx\n";
+                    if (gridTriads["operation", i].Value.ToString() == ">")
+                    {
+                        richTxtGeneratedCode.Text += "\tjb " + labelsOfElse[labelElseCounter];
+                        labelElseCounter++;
+                    }
+                    if (gridTriads["operation", i].Value.ToString() == "<")
+                    {
+                        richTxtGeneratedCode.Text += "\tja " + labelsOfElse[labelElseCounter];
+                        labelElseCounter++;
+                    }
+                    if (gridTriads["operation", i].Value.ToString() == "==")
+                    {
+                        richTxtGeneratedCode.Text += "\tjne " + labelsOfElse[labelElseCounter];
+                        labelElseCounter=labelElseCounter+1;
+                    }
+                    if (gridTriads["operation", i].Value.ToString() == "!=")
+                    {
+                        richTxtGeneratedCode.Text += "\tje " + labelsOfElse[labelElseCounter];
+                        labelElseCounter++;
+                    }
+                }
+
+                if (gridTriads["triadType", i].Value.ToString() == "6") 
+                {
+                    
+                    {richTxtGeneratedCode.Text += labelsOfElse[lblElsePlaser];}
+                    ++lblElsePlaser;
+                }
+
+                if (gridTriads["triadType", i].Value.ToString() == "7")
+                {
+                    
+                    {richTxtGeneratedCode.Text += labelsOfDo[lblDoPlaser];}
+                    ++lblDoPlaser;
                 }
             }
             if (errorCounter > 0)
