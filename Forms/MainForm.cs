@@ -41,6 +41,8 @@ namespace CursCompiler.Forms
             gridTriads.Columns.Add("operation", "Операція");
             gridTriads.Columns.Add("operand1", "Операнд 1");
             gridTriads.Columns.Add("operand2", "Операнд 2");
+            gridTriads.Columns.Add("triadType", "Тип тріади");
+            gridTriads.Columns[4].Visible = true;
             gridTriads.Columns[0].Width = 124;
             gridTriads.Columns[1].Width = 140;
             gridTriads.Columns[2].Width = 200;
@@ -125,6 +127,7 @@ namespace CursCompiler.Forms
             gridIdintifers.Rows.Clear();
             ErrorLogger.Clear();
             richTextSyntax.Text = String.Empty;
+            richTxtGeneratedCode.Text = String.Empty;
             //додаємо заголовок таблиці
             
             foreach (var temp in richTxtEntryProgram.Lines)
@@ -543,7 +546,7 @@ namespace CursCompiler.Forms
             int triadsCounter = 0;
             for (int i = 0; i < gridLexems.RowCount - 1; i++)
             {
-                //для лексем типу a = (op1+op2)
+                //для конструкцій типу a = (op1+op2)
                 if (gridLexems["description", i].Value.ToString() == "Змінна" &&
                     gridLexems["lex", i - 1].Value.ToString() == "int"&&
                     gridLexems["lex",i+2].Value.ToString()!="!")
@@ -552,16 +555,18 @@ namespace CursCompiler.Forms
                     gridTriads.Rows.Add(triadsCounter.ToString()
                         ,gridLexems["lex", i + 4].Value.ToString()
                         ,gridLexems["lex", i + 3].Value.ToString()
-                        ,gridLexems["lex", i + 5].Value.ToString());
+                        ,gridLexems["lex", i + 5].Value.ToString()
+                        ,1);
                     
                     triadsCounter++;
                     gridTriads.Rows.Add(triadsCounter.ToString()
                         ,gridLexems["lex", i + 1].Value.ToString()
                         ,gridLexems["lex", i].Value.ToString() 
-                        ,"^"+(triadsCounter - 1).ToString());
+                        ,"ref "+(triadsCounter - 1).ToString()
+                        ,2);
                     
                 }
-                //для лексем типу a=!(op)
+                //для конструкцій типу a=!(op)
                 if (gridLexems["description", i].Value.ToString() == "Змінна" &&
                     gridLexems["lex", i - 1].Value.ToString() == "int" &&
                     gridLexems["lex", i + 2].Value.ToString() == "!")
@@ -570,45 +575,45 @@ namespace CursCompiler.Forms
                     gridTriads.Rows.Add(triadsCounter
                         ,gridLexems["lex", i + 2].Value.ToString()
                         ,gridLexems["lex", i + 4].Value.ToString() 
-                        ,0.ToString());
+                        ,0.ToString(),1);
                     triadsCounter++;
                     gridTriads.Rows.Add(triadsCounter
                         ,gridLexems["lex", i + 1].Value.ToString() 
                         ,gridLexems["lex", i].Value.ToString()
-                        ,"^"+(triadsCounter - 1).ToString()+" )");
+                        ,"ref "+(triadsCounter - 1).ToString(),2);
                 }
-                //для лексем типу if(op1 <operation> op2)
+                //для конструкцій типу if(op1 <operation> op2)
                 if (gridLexems["lex", i].Value.ToString() == "if")
                 {
                     triadsCounter++;
                     gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i + 3].Value.ToString(),
-                        gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i + 4].Value.ToString());
+                        gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i + 4].Value.ToString(),3);
                 }
 
-                //для лексеми типу а--;
+                //для конструкцій типу а--;
                 if (gridLexems["description", i].Value.ToString() == "Змінна" &&
                     gridLexems["lex", i + 1].Value.ToString() == "--")
                 {
                     triadsCounter++;
-                    gridTriads.Rows.Add(triadsCounter, "-", gridLexems["lex", i].Value.ToString(), 1.ToString());
+                    gridTriads.Rows.Add(triadsCounter, "-", gridLexems["lex", i].Value.ToString(), 1.ToString(),1);
                     triadsCounter++;
                     gridTriads.Rows.Add(triadsCounter, "=", gridLexems["lex", i].Value.ToString(),
-                        "^"+(triadsCounter - 1).ToString());
+                        "ref "+(triadsCounter - 1).ToString(),2);
                 }
 
-                //для лексеми типу do
+                //для конструкції типу do
                 if (gridLexems["lex", i].Value.ToString() == "do")
                 {
                     triadsCounter++;
-                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), 0.ToString(), 0.ToString());
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), 0.ToString(), 0.ToString(),4);
                 }
 
-                //для лексеми типу while
+                //для конструкції типу while
                 if (gridLexems["lex", i].Value.ToString() == "while")
                 {
                     triadsCounter++;
                     gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i + 3].Value.ToString(),
-                        gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i+4].Value.ToString());
+                        gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i+4].Value.ToString(),3);
                     triadsCounter++;
                     int temp = 0;
                     for (int j = 0; j < gridTriads.RowCount - 1; j++)
@@ -616,10 +621,41 @@ namespace CursCompiler.Forms
                         if (gridTriads["operation", j].Value.ToString() == "do")
                             temp = j;
                     }
-                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), "^" + gridTriads["triadNumber",temp].Value.ToString(), 0);
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), "ref " + gridTriads["triadNumber",temp].Value.ToString(), 0.ToString(),4);
                 }
             }
             //end of triads maker
+
+            //code generation
+            //спочатру додаємо data segment і оголошені змінні
+            richTxtGeneratedCode.Text += "data segment\n";
+            for (int i = 0; i < gridIdintifers.RowCount - 1; i++)
+            {
+                richTxtGeneratedCode.Text +="\t" + gridIdintifers["idintifer", i].Value.ToString() + " dw 0\n";
+            }
+            richTxtGeneratedCode.Text += "ends\n\n";
+
+            //додаємо блок stack segment та початок коду програми на асемблері
+            richTxtGeneratedCode.Text += 
+@"stack segment
+       dw   128  dup(0)
+ends
+
+
+code segment
+start:
+; set segment registers:
+        mov ax, data
+        mov ds, ax
+        mov es, ax ";
+
+            for (int i = 0; i < gridTriads.RowCount - 1; i++)
+            {
+                if (gridTriads["triadType", i].Value.ToString() == "1")
+                {
+
+                }
+            }
             if (errorCounter > 0)
             {
                 Form errorForm=new ErrorReportForm();
@@ -660,6 +696,7 @@ namespace CursCompiler.Forms
         //нумерація рядків 
         private void UpdateNumberLabel()
         {
+            lblRowNumber.Font = new Font(richTxtEntryProgram.Font.FontFamily, richTxtEntryProgram.Font.Size);
             Point pos =new Point(0,0);
             int firstIndex = richTxtEntryProgram.GetCharIndexFromPosition(pos);
             int firstLine = richTxtEntryProgram.GetLineFromCharIndex(firstIndex);

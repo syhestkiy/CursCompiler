@@ -49,6 +49,7 @@
             this.tabGeneretedCode = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.richTxtGeneratedCode = new System.Windows.Forms.RichTextBox();
             this.listOfTabs.SuspendLayout();
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
@@ -58,6 +59,7 @@
             this.tabPage1.SuspendLayout();
             this.tabTriads.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridTriads)).BeginInit();
+            this.tabGeneretedCode.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -179,6 +181,7 @@
             this.richTxtEntryProgram.Name = "richTxtEntryProgram";
             this.richTxtEntryProgram.Size = new System.Drawing.Size(594, 301);
             this.richTxtEntryProgram.TabIndex = 0;
+            this.richTxtEntryProgram.TabStop = false;
             this.richTxtEntryProgram.Text = "";
             this.richTxtEntryProgram.VScroll += new System.EventHandler(this.richTxtEntryProgram_VScroll);
             this.richTxtEntryProgram.FontChanged += new System.EventHandler(this.richTxtEntryProgram_FontChanged);
@@ -204,6 +207,7 @@
             this.gridLexems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridLexems.Location = new System.Drawing.Point(0, 0);
             this.gridLexems.Name = "gridLexems";
+            this.gridLexems.ReadOnly = true;
             this.gridLexems.Size = new System.Drawing.Size(723, 301);
             this.gridLexems.TabIndex = 0;
             // 
@@ -226,6 +230,7 @@
             this.gridIdintifers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridIdintifers.Location = new System.Drawing.Point(0, 0);
             this.gridIdintifers.Name = "gridIdintifers";
+            this.gridIdintifers.ReadOnly = true;
             this.gridIdintifers.Size = new System.Drawing.Size(723, 301);
             this.gridIdintifers.TabIndex = 0;
             // 
@@ -247,6 +252,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextSyntax.Location = new System.Drawing.Point(0, 0);
             this.richTextSyntax.Name = "richTextSyntax";
+            this.richTextSyntax.ReadOnly = true;
             this.richTextSyntax.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.richTextSyntax.Size = new System.Drawing.Size(723, 305);
             this.richTextSyntax.TabIndex = 2;
@@ -271,11 +277,13 @@
             this.gridTriads.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridTriads.Location = new System.Drawing.Point(0, 0);
             this.gridTriads.Name = "gridTriads";
+            this.gridTriads.ReadOnly = true;
             this.gridTriads.Size = new System.Drawing.Size(727, 305);
             this.gridTriads.TabIndex = 0;
             // 
             // tabGeneretedCode
             // 
+            this.tabGeneretedCode.Controls.Add(this.richTxtGeneratedCode);
             this.tabGeneretedCode.Location = new System.Drawing.Point(4, 22);
             this.tabGeneretedCode.Name = "tabGeneretedCode";
             this.tabGeneretedCode.Padding = new System.Windows.Forms.Padding(3);
@@ -295,6 +303,15 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             this.btnExit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            // 
+            // richTxtGeneratedCode
+            // 
+            this.richTxtGeneratedCode.Location = new System.Drawing.Point(0, 0);
+            this.richTxtGeneratedCode.Name = "richTxtGeneratedCode";
+            this.richTxtGeneratedCode.ReadOnly = true;
+            this.richTxtGeneratedCode.Size = new System.Drawing.Size(727, 301);
+            this.richTxtGeneratedCode.TabIndex = 0;
+            this.richTxtGeneratedCode.Text = "";
             // 
             // MainForm
             // 
@@ -318,6 +335,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabTriads.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridTriads)).EndInit();
+            this.tabGeneretedCode.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -345,6 +363,7 @@
         private System.Windows.Forms.TabPage tabGeneretedCode;
         private System.Windows.Forms.Label lblRowNumber;
         private System.Windows.Forms.Button btnHelp;
+        private System.Windows.Forms.RichTextBox richTxtGeneratedCode;
     }
 }
 
