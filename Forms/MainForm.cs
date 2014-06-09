@@ -49,7 +49,7 @@ namespace CursCompiler.Forms
             gridTriads.Columns.Add("operand1", "Операнд 1");
             gridTriads.Columns.Add("operand2", "Операнд 2");
             gridTriads.Columns.Add("triadType", "Тип тріади");
-            gridTriads.Columns[4].Visible = true;
+            gridTriads.Columns[4].Visible = false;
             gridTriads.Columns[0].Width = 124;
             gridTriads.Columns[1].Width = 140;
             gridTriads.Columns[2].Width = 200;
@@ -820,7 +820,20 @@ end start ; set entry point and stop the assembler.";
             {
                 MessageBox.Show(@"Успішно скомпільовано",@"Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
+
+            //зберігаємо асм файл в директорії з вихідним файлом
             
+
+            using (
+                StreamWriter outFile =
+                    new StreamWriter(openFileDialog.InitialDirectory + Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".asm"))
+            {
+                foreach (var line in richTxtGeneratedCode.Lines)
+                {
+                    outFile.WriteLine(line);
+                }
+                outFile.Flush();
+            }
         }
         //обробка клавіатурних скорочень
         private void MainForm_KeyDown(object sender, KeyEventArgs e)

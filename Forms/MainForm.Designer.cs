@@ -47,9 +47,9 @@
             this.tabTriads = new System.Windows.Forms.TabPage();
             this.gridTriads = new System.Windows.Forms.DataGridView();
             this.tabGeneretedCode = new System.Windows.Forms.TabPage();
+            this.richTxtGeneratedCode = new System.Windows.Forms.RichTextBox();
             this.btnExit = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.richTxtGeneratedCode = new System.Windows.Forms.RichTextBox();
             this.listOfTabs.SuspendLayout();
             this.tabTxtEditOrOpenExistingFile.SuspendLayout();
             this.tabLexems.SuspendLayout();
@@ -292,18 +292,6 @@
             this.tabGeneretedCode.Text = "Genereted code";
             this.tabGeneretedCode.UseVisualStyleBackColor = true;
             // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.Location = new System.Drawing.Point(644, 329);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 0;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            this.btnExit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
-            // 
             // richTxtGeneratedCode
             // 
             this.richTxtGeneratedCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -315,6 +303,18 @@
             this.richTxtGeneratedCode.Size = new System.Drawing.Size(727, 301);
             this.richTxtGeneratedCode.TabIndex = 0;
             this.richTxtGeneratedCode.Text = "";
+            // 
+            // btnExit
+            // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.Location = new System.Drawing.Point(644, 329);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.TabIndex = 0;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            this.btnExit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             // 
             // MainForm
             // 

@@ -2,7 +2,7 @@
 
 namespace CursCompiler.LexAnalyzer
 {
-    internal class TextEditor
+    internal class TextEditor//crutch
     {
         public static string Convolution(string symbOpen, string symbClose, string text, string charToReplase)
         {
@@ -39,10 +39,8 @@ namespace CursCompiler.LexAnalyzer
         public static string SpaceCorrector(string textline)
         {
             int i;
-            //розділення деяких операторів (для зручнішого зчитування)
-            //Індуський код, але простіший для розуміння. Якщо додавати пробіли тільки для операторів, які його
-            //не мають, то прийдеться розбивати кожного разу string на масив char. Складніше і довше для
-            //виконання процесором, але зручніше для використання в C#
+            //розділення деяких операторів та видалення зайвих пробілів(для зручнішого зчитування)
+
             for (i = 0; i < Lex.Operators.Length; i++)
             {
                 if (textline.Contains(Lex.Operators[i].Name + Lex.Operators[i].Name))
