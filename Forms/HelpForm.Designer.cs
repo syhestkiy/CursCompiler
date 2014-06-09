@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpForm));
             this.tabsHelpForm = new System.Windows.Forms.TabControl();
             this.tabGeneralInfo = new System.Windows.Forms.TabPage();
-            this.tabSyntax = new System.Windows.Forms.TabPage();
             this.richTxtGeneralInfo = new System.Windows.Forms.RichTextBox();
+            this.tabSyntax = new System.Windows.Forms.TabPage();
             this.richTxtHelpSyntax = new System.Windows.Forms.RichTextBox();
             this.tabsHelpForm.SuspendLayout();
             this.tabGeneralInfo.SuspendLayout();
@@ -60,17 +60,6 @@
             this.tabGeneralInfo.Text = "General";
             this.tabGeneralInfo.UseVisualStyleBackColor = true;
             // 
-            // tabSyntax
-            // 
-            this.tabSyntax.Controls.Add(this.richTxtHelpSyntax);
-            this.tabSyntax.Location = new System.Drawing.Point(4, 22);
-            this.tabSyntax.Name = "tabSyntax";
-            this.tabSyntax.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSyntax.Size = new System.Drawing.Size(400, 286);
-            this.tabSyntax.TabIndex = 1;
-            this.tabSyntax.Text = "Syntax";
-            this.tabSyntax.UseVisualStyleBackColor = true;
-            // 
             // richTxtGeneralInfo
             // 
             this.richTxtGeneralInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -83,6 +72,17 @@
             this.richTxtGeneralInfo.TabIndex = 0;
             this.richTxtGeneralInfo.Text = resources.GetString("richTxtGeneralInfo.Text");
             // 
+            // tabSyntax
+            // 
+            this.tabSyntax.Controls.Add(this.richTxtHelpSyntax);
+            this.tabSyntax.Location = new System.Drawing.Point(4, 22);
+            this.tabSyntax.Name = "tabSyntax";
+            this.tabSyntax.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSyntax.Size = new System.Drawing.Size(400, 286);
+            this.tabSyntax.TabIndex = 1;
+            this.tabSyntax.Text = "Syntax";
+            this.tabSyntax.UseVisualStyleBackColor = true;
+            // 
             // richTxtHelpSyntax
             // 
             this.richTxtHelpSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -91,7 +91,7 @@
             this.richTxtHelpSyntax.Location = new System.Drawing.Point(0, 0);
             this.richTxtHelpSyntax.Name = "richTxtHelpSyntax";
             this.richTxtHelpSyntax.ReadOnly = true;
-            this.richTxtHelpSyntax.Size = new System.Drawing.Size(388, 286);
+            this.richTxtHelpSyntax.Size = new System.Drawing.Size(400, 286);
             this.richTxtHelpSyntax.TabIndex = 0;
             this.richTxtHelpSyntax.Text = resources.GetString("richTxtHelpSyntax.Text");
             // 

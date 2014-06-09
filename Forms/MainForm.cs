@@ -132,6 +132,7 @@ namespace CursCompiler.Forms
             string lexProg = String.Empty;
             gridLexems.Rows.Clear();
             gridIdintifers.Rows.Clear();
+            gridTriads.Rows.Clear();
             ErrorLogger.Clear();
             richTextSyntax.Text = String.Empty;
             richTxtGeneratedCode.Text = String.Empty;
@@ -573,6 +574,16 @@ namespace CursCompiler.Forms
                         ,2);
                     
                 }
+
+                //для присвоєння типу а=9
+                if (gridLexems["description", i].Value.ToString() == "Змінна" &&
+                    gridLexems["lex", i - 1].Value.ToString() != "int" &&
+                    gridLexems["lex", i + 3].Value.ToString() == ";")
+                {
+                    triadsCounter++;
+                    gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i + 1].Value.ToString(),
+                        gridLexems["lex", i].Value.ToString(), gridLexems["lex", i + 2].Value.ToString(), 9.ToString());
+                }
                 //для конструкцій типу a=!(op)
                 if (gridLexems["description", i].Value.ToString() == "Змінна" &&
                     gridLexems["lex", i - 1].Value.ToString() == "int" &&
@@ -627,7 +638,7 @@ namespace CursCompiler.Forms
                 {
                     triadsCounter++;
                     gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i + 3].Value.ToString(),
-                        gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i+4].Value.ToString(),3);
+                        gridLexems["lex", i + 2].Value.ToString(), gridLexems["lex", i+4].Value.ToString(),8);
                     triadsCounter++;
                     int temp = 0;
                     for (int j = 0; j < gridTriads.RowCount - 1; j++)
@@ -637,6 +648,8 @@ namespace CursCompiler.Forms
                     }
                     gridTriads.Rows.Add(triadsCounter, gridLexems["lex", i].Value.ToString(), "ref " + gridTriads["triadNumber",temp].Value.ToString(), 0.ToString(),4);
                 }
+
+                
             }
             //end of triads maker
 
@@ -706,49 +719,98 @@ start:
                 if (gridTriads["triadType", i].Value.ToString() == "2")
                 {
                     richTxtGeneratedCode.Text+="\tmov "+gridTriads["operand1",i].Value.ToString()+",ax\n\n";
-                }
-                //todo виправити помилку OunOfRange яка виникає через іфчики 
+                } 
                 if (gridTriads["triadType", i].Value.ToString() == "3")
                 {
-                    richTxtGeneratedCode.Text += "\tmov ax" + gridTriads["operand1", i].Value.ToString() + "\n";
+                    richTxtGeneratedCode.Text += "\tmov ax," + gridTriads["operand1", i].Value.ToString() + "\n";
                     richTxtGeneratedCode.Text += "\tmov bx," + gridTriads["operand2", i].Value.ToString() + "\n";
                     richTxtGeneratedCode.Text += "\tcmp ax,bx\n";
                     if (gridTriads["operation", i].Value.ToString() == ">")
                     {
-                        richTxtGeneratedCode.Text += "\tjb " + labelsOfElse[labelElseCounter];
+                        richTxtGeneratedCode.Text += "\tjb " + labelsOfElse[labelElseCounter] + "\n\n";
                         labelElseCounter++;
                     }
                     if (gridTriads["operation", i].Value.ToString() == "<")
                     {
-                        richTxtGeneratedCode.Text += "\tja " + labelsOfElse[labelElseCounter];
+                        richTxtGeneratedCode.Text += "\tja " + labelsOfElse[labelElseCounter] + "\n\n";
                         labelElseCounter++;
                     }
                     if (gridTriads["operation", i].Value.ToString() == "==")
                     {
-                        richTxtGeneratedCode.Text += "\tjne " + labelsOfElse[labelElseCounter];
-                        labelElseCounter=labelElseCounter+1;
+                        richTxtGeneratedCode.Text += "\tjne " + labelsOfElse[labelElseCounter] + "\n\n";
+                        labelElseCounter++;
                     }
                     if (gridTriads["operation", i].Value.ToString() == "!=")
                     {
-                        richTxtGeneratedCode.Text += "\tje " + labelsOfElse[labelElseCounter];
+                        richTxtGeneratedCode.Text += "\tje " + labelsOfElse[labelElseCounter]+"\n\n";
                         labelElseCounter++;
                     }
                 }
 
-                if (gridTriads["triadType", i].Value.ToString() == "6") 
+                if (gridTriads["triadType", i].Value.ToString() == "5")
                 {
-                    
-                    {richTxtGeneratedCode.Text += labelsOfElse[lblElsePlaser];}
+                    richTxtGeneratedCode.Text += "\tmov ax," + gridTriads["operand1", i].Value.ToString() + "\n";
+                    richTxtGeneratedCode.Text += "\txor ax,0xffff\n";
+                }
+
+                if (gridTriads["triadType", i].Value.ToString() == "6")
+                {
+
+                    { richTxtGeneratedCode.Text += labelsOfElse[lblElsePlaser] + ":\n"; }
                     ++lblElsePlaser;
                 }
 
                 if (gridTriads["triadType", i].Value.ToString() == "7")
                 {
-                    
-                    {richTxtGeneratedCode.Text += labelsOfDo[lblDoPlaser];}
+
+                    { richTxtGeneratedCode.Text += labelsOfDo[lblDoPlaser] + ":\n"; }
                     ++lblDoPlaser;
                 }
+
+                if (gridTriads["triadType", i].Value.ToString() == "8")
+                {
+                    richTxtGeneratedCode.Text += "\tmov ax," + gridTriads["operand1", i].Value.ToString() + "\n";
+                    richTxtGeneratedCode.Text += "\tmov bx," + gridTriads["operand2", i].Value.ToString() + "\n";
+                    richTxtGeneratedCode.Text += "\tcmp ax,bx\n";
+                    if (gridTriads["operation", i].Value.ToString() == ">")
+                    {
+                        richTxtGeneratedCode.Text += "\tjb " + labelsOfDo[labelDoCounter] + "\n\n";
+                        labelDoCounter++;
+                    }
+                    if (gridTriads["operation", i].Value.ToString() == "<")
+                    {
+                        richTxtGeneratedCode.Text += "\tja " + labelsOfDo[labelDoCounter] + "\n\n";
+                        labelDoCounter++;
+                    }
+                    if (gridTriads["operation", i].Value.ToString() == "==")
+                    {
+                        richTxtGeneratedCode.Text += "\tjne " + labelsOfDo[labelDoCounter] + "\n\n";
+                        labelDoCounter++;
+                    }
+                    if (gridTriads["operation", i].Value.ToString() == "!=")
+                    {
+                        richTxtGeneratedCode.Text += "\tje " + labelsOfDo[labelDoCounter] + "\n\n";
+                        labelDoCounter++;
+                    }
+                }
+                if (gridTriads["triadType", i].Value.ToString() == "9")
+                {
+                    richTxtGeneratedCode.Text += "\tmov ax," + gridTriads["operand2", i].Value.ToString() + "\n";
+                    richTxtGeneratedCode.Text += "\tmov " + gridTriads["operand1", i].Value.ToString() + ",ax\n\n";
+                }
+
             }
+            //додаємо блок який завершує асемблерний код та повертає контроль операційній системі
+            richTxtGeneratedCode.Text += @"    ; wait for any key....    
+    mov ah, 1
+    int 21h
+    
+    mov ax, 4c00h ; exit to operating system.
+    int 21h    
+ends
+
+end start ; set entry point and stop the assembler.";
+            //end of code generation
             if (errorCounter > 0)
             {
                 Form errorForm=new ErrorReportForm();
